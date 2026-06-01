@@ -1,5 +1,6 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "nicoly-modas",
+  "description": "Nicoly Modas - Loja de moda feminina premium",
   "private": true,
   "sideEffects": false,
   "type": "module",
