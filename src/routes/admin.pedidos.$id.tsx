@@ -12,9 +12,14 @@ export const Route = createFileRoute("/admin/pedidos/$id")({
 const STATUSES = ["pending", "paid", "processing", "shipped", "delivered", "cancelled"] as const;
 const PAYMENTS = ["pending", "paid", "failed", "refunded"] as const;
 const STATUS_LABEL: Record<string, string> = {
-  pending: "Pendente", paid: "Pago", processing: "Em separação",
-  shipped: "Enviado", delivered: "Entregue", cancelled: "Cancelado",
-  failed: "Falhou", refunded: "Reembolsado",
+  pending: "Pendente",
+  paid: "Pago",
+  processing: "Em separação",
+  shipped: "Enviado",
+  delivered: "Entregue",
+  cancelled: "Cancelado",
+  failed: "Falhou",
+  refunded: "Reembolsado",
 };
 
 function AdminOrderDetail() {
@@ -34,8 +39,15 @@ function AdminOrderDetail() {
     },
   });
 
-  const update = async (patch: { status?: string; payment_status?: string; tracking_code?: string | null }) => {
-    const { error } = await supabase.from("orders").update(patch as never).eq("id", id);
+  const update = async (patch: {
+    status?: string;
+    payment_status?: string;
+    tracking_code?: string | null;
+  }) => {
+    const { error } = await supabase
+      .from("orders")
+      .update(patch as never)
+      .eq("id", id);
     if (error) return toast.error(error.message);
     toast.success("Pedido atualizado");
     qc.invalidateQueries({ queryKey: ["admin-order", id] });
@@ -48,14 +60,19 @@ function AdminOrderDetail() {
 
   return (
     <div className="max-w-4xl">
-      <Link to="/admin/pedidos" className="inline-flex items-center gap-2 text-xs tracking-editorial uppercase text-muted-foreground mb-6 hover:text-foreground">
+      <Link
+        to="/admin/pedidos"
+        className="inline-flex items-center gap-2 text-xs tracking-editorial uppercase text-muted-foreground mb-6 hover:text-foreground"
+      >
         <ArrowLeft className="h-3 w-3" /> Pedidos
       </Link>
 
       <div className="flex items-start justify-between mb-8">
         <div>
           <h1 className="font-display text-3xl">{order.order_number}</h1>
-          <p className="text-sm text-muted-foreground">{new Date(order.created_at).toLocaleString("pt-BR")}</p>
+          <p className="text-sm text-muted-foreground">
+            {new Date(order.created_at).toLocaleString("pt-BR")}
+          </p>
         </div>
         <div className="text-right">
           <div className="font-display text-3xl">{brl(Number(order.total))}</div>
@@ -64,30 +81,47 @@ function AdminOrderDetail() {
 
       <div className="grid md:grid-cols-2 gap-4 mb-6">
         <div className="border border-border rounded-sm p-5 bg-background">
-          <label className="block text-xs tracking-editorial uppercase text-muted-foreground mb-2">Status do pedido</label>
+          <label className="block text-xs tracking-editorial uppercase text-muted-foreground mb-2">
+            Status do pedido
+          </label>
           <select
             value={order.status}
             onChange={(e) => update({ status: e.target.value })}
             className="w-full border border-border rounded-sm px-3 py-2 text-sm bg-background"
           >
-            {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {STATUS_LABEL[s]}
+              </option>
+            ))}
           </select>
         </div>
         <div className="border border-border rounded-sm p-5 bg-background">
-          <label className="block text-xs tracking-editorial uppercase text-muted-foreground mb-2">Status do pagamento</label>
+          <label className="block text-xs tracking-editorial uppercase text-muted-foreground mb-2">
+            Status do pagamento
+          </label>
           <select
             value={order.payment_status}
             onChange={(e) => update({ payment_status: e.target.value })}
             className="w-full border border-border rounded-sm px-3 py-2 text-sm bg-background"
           >
-            {PAYMENTS.map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
+            {PAYMENTS.map((s) => (
+              <option key={s} value={s}>
+                {STATUS_LABEL[s]}
+              </option>
+            ))}
           </select>
         </div>
         <div className="md:col-span-2 border border-border rounded-sm p-5 bg-background">
-          <label className="block text-xs tracking-editorial uppercase text-muted-foreground mb-2">Código de rastreio</label>
+          <label className="block text-xs tracking-editorial uppercase text-muted-foreground mb-2">
+            Código de rastreio
+          </label>
           <input
             defaultValue={order.tracking_code ?? ""}
-            onBlur={(e) => e.target.value !== (order.tracking_code ?? "") && update({ tracking_code: e.target.value || null })}
+            onBlur={(e) =>
+              e.target.value !== (order.tracking_code ?? "") &&
+              update({ tracking_code: e.target.value || null })
+            }
             className="w-full border border-border rounded-sm px-3 py-2 text-sm bg-background"
             placeholder="Ex: BR123456789XX"
           />
@@ -100,13 +134,16 @@ function AdminOrderDetail() {
           {items.map((it) => (
             <li key={it.id} className="p-4 flex gap-4 text-sm">
               <div className="w-14 h-16 bg-secondary rounded-sm overflow-hidden flex-shrink-0">
-                {it.product_image && <img src={it.product_image} alt="" className="h-full w-full object-cover" />}
+                {it.product_image && (
+                  <img src={it.product_image} alt="" className="h-full w-full object-cover" />
+                )}
               </div>
               <div className="flex-1 flex justify-between">
                 <div>
                   <div className="font-medium">{it.product_name}</div>
                   <div className="text-xs text-muted-foreground">
-                    {it.size && <>Tam: {it.size} · </>}{it.color && <>Cor: {it.color} · </>}Qtd: {it.quantity}
+                    {it.size && <>Tam: {it.size} · </>}
+                    {it.color && <>Cor: {it.color} · </>}Qtd: {it.quantity}
                   </div>
                 </div>
                 <div>{brl(Number(it.unit_price) * it.quantity)}</div>
@@ -118,20 +155,31 @@ function AdminOrderDetail() {
 
       <div className="grid md:grid-cols-2 gap-4 text-sm">
         <div className="border border-border rounded-sm p-5 bg-background">
-          <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">Cliente</h3>
+          <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">
+            Cliente
+          </h3>
           <div>{order.customer_name}</div>
           <div className="text-muted-foreground">{order.customer_email}</div>
           <div className="text-muted-foreground">{order.customer_phone}</div>
         </div>
         <div className="border border-border rounded-sm p-5 bg-background">
-          <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">Entrega</h3>
-          <div>{order.shipping_street}, {order.shipping_number}{order.shipping_complement ? ` · ${order.shipping_complement}` : ""}</div>
-          <div className="text-muted-foreground">{order.shipping_neighborhood} · {order.shipping_city}/{order.shipping_state}</div>
+          <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">
+            Entrega
+          </h3>
+          <div>
+            {order.shipping_street}, {order.shipping_number}
+            {order.shipping_complement ? ` · ${order.shipping_complement}` : ""}
+          </div>
+          <div className="text-muted-foreground">
+            {order.shipping_neighborhood} · {order.shipping_city}/{order.shipping_state}
+          </div>
           <div className="text-muted-foreground">CEP {order.shipping_cep}</div>
         </div>
         {order.notes && (
           <div className="md:col-span-2 border border-border rounded-sm p-5 bg-background">
-            <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">Observações</h3>
+            <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">
+              Observações
+            </h3>
             <p className="whitespace-pre-wrap">{order.notes}</p>
           </div>
         )}

@@ -56,8 +56,7 @@ export function HeroCarousel() {
 
   const b = banners[index];
 
-  const go = (dir: number) =>
-    setIndex((i) => (i + dir + banners.length) % banners.length);
+  const go = (dir: number) => setIndex((i) => (i + dir + banners.length) % banners.length);
 
   return (
     <section className="relative overflow-hidden bg-blush-soft">
@@ -71,15 +70,10 @@ export function HeroCarousel() {
             transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0"
           >
-            <img
-              src={b.image_url}
-              alt={b.title}
-              className="h-full w-full object-cover"
-            />
+            <img src={b.image_url} alt={b.title} className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
           </motion.div>
         </AnimatePresence>
-
 
         {banners.length > 1 && (
           <>

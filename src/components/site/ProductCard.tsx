@@ -12,11 +12,7 @@ export function ProductCard({ product }: { product: Product }) {
   const [activeDot, setActiveDot] = useState(0);
 
   return (
-    <Link
-      to="/produto/$slug"
-      params={{ slug: product.slug }}
-      className="group block"
-    >
+    <Link to="/produto/$slug" params={{ slug: product.slug }} className="group block">
       <div className="relative aspect-[3/4] overflow-hidden bg-secondary rounded-sm">
         {img ? (
           <>
@@ -75,9 +71,7 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="text-sm font-medium leading-tight line-clamp-2">{product.name}</h3>
         <div className="flex items-baseline gap-2 text-sm">
           {hasDiscount && (
-            <span className="text-muted-foreground line-through text-xs">
-              {brl(product.price)}
-            </span>
+            <span className="text-muted-foreground line-through text-xs">{brl(product.price)}</span>
           )}
           <span className={hasDiscount ? "text-blush-deep font-medium" : "font-medium"}>
             {brl(effectivePrice)}

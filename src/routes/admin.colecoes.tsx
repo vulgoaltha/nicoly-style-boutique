@@ -25,7 +25,10 @@ function AdminCollections() {
   const { data: items = [], refetch } = useQuery({
     queryKey: ["admin-collections"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("homepage_collections").select("*").order("order_position");
+      const { data, error } = await supabase
+        .from("homepage_collections")
+        .select("*")
+        .order("order_position");
       if (error) throw error;
       return data as Collection[];
     },
@@ -41,7 +44,10 @@ function AdminCollections() {
   };
 
   const move = async (c: Collection, dir: number) => {
-    await supabase.from("homepage_collections").update({ order_position: c.order_position + dir }).eq("id", c.id);
+    await supabase
+      .from("homepage_collections")
+      .update({ order_position: c.order_position + dir })
+      .eq("id", c.id);
     qc.invalidateQueries({ queryKey: ["admin-collections"] });
     qc.invalidateQueries({ queryKey: ["homepage-collections"] });
   };
@@ -54,7 +60,17 @@ function AdminCollections() {
           <p className="text-sm text-muted-foreground">Cards premium da home</p>
         </div>
         <button
-          onClick={() => setEditing({ id: "", title: "", subtitle: "", image_url: "", redirect_url: "/loja", order_position: items.length, active: true })}
+          onClick={() =>
+            setEditing({
+              id: "",
+              title: "",
+              subtitle: "",
+              image_url: "",
+              redirect_url: "/loja",
+              order_position: items.length,
+              active: true,
+            })
+          }
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-xs tracking-editorial uppercase rounded-sm"
         >
           <Plus className="h-4 w-4" /> Nova coleção
@@ -62,22 +78,46 @@ function AdminCollections() {
       </div>
 
       <div className="bg-background border border-border rounded-sm divide-y divide-border">
-        {items.length === 0 && <div className="p-8 text-sm text-muted-foreground text-center">Sem coleções.</div>}
+        {items.length === 0 && (
+          <div className="p-8 text-sm text-muted-foreground text-center">Sem coleções.</div>
+        )}
         {items.map((c) => (
           <div key={c.id} className="p-4 flex gap-4 items-center">
-            <img src={c.image_url} alt="" className="w-20 h-20 object-cover rounded-sm bg-secondary" />
+            <img
+              src={c.image_url}
+              alt=""
+              className="w-20 h-20 object-cover rounded-sm bg-secondary"
+            />
             <div className="flex-1 min-w-0">
               <div className="font-medium truncate">{c.title}</div>
-              <div className="text-xs text-muted-foreground truncate">{c.subtitle} · {c.redirect_url}</div>
+              <div className="text-xs text-muted-foreground truncate">
+                {c.subtitle} · {c.redirect_url}
+              </div>
               <div className="text-[10px] mt-1 tracking-editorial uppercase">
-                {c.active ? <span className="text-green-700">Ativa</span> : <span className="text-muted-foreground">Inativa</span>} · ordem {c.order_position}
+                {c.active ? (
+                  <span className="text-green-700">Ativa</span>
+                ) : (
+                  <span className="text-muted-foreground">Inativa</span>
+                )}{" "}
+                · ordem {c.order_position}
               </div>
             </div>
             <div className="flex gap-1">
-              <button onClick={() => move(c, -1)} className="p-2 hover:bg-secondary rounded-sm"><ArrowUp className="h-4 w-4" /></button>
-              <button onClick={() => move(c, 1)} className="p-2 hover:bg-secondary rounded-sm"><ArrowDown className="h-4 w-4" /></button>
-              <button onClick={() => setEditing(c)} className="p-2 hover:bg-secondary rounded-sm"><Pencil className="h-4 w-4" /></button>
-              <button onClick={() => remove(c.id)} className="p-2 hover:bg-secondary rounded-sm text-destructive"><Trash2 className="h-4 w-4" /></button>
+              <button onClick={() => move(c, -1)} className="p-2 hover:bg-secondary rounded-sm">
+                <ArrowUp className="h-4 w-4" />
+              </button>
+              <button onClick={() => move(c, 1)} className="p-2 hover:bg-secondary rounded-sm">
+                <ArrowDown className="h-4 w-4" />
+              </button>
+              <button onClick={() => setEditing(c)} className="p-2 hover:bg-secondary rounded-sm">
+                <Pencil className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => remove(c.id)}
+                className="p-2 hover:bg-secondary rounded-sm text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
             </div>
           </div>
         ))}
@@ -98,7 +138,15 @@ function AdminCollections() {
   );
 }
 
-function Editor({ item, onClose, onSaved }: { item: Collection; onClose: () => void; onSaved: () => void }) {
+function Editor({
+  item,
+  onClose,
+  onSaved,
+}: {
+  item: Collection;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
   const [form, setForm] = useState(item);
   const [saving, setSaving] = useState(false);
 
@@ -107,8 +155,12 @@ function Editor({ item, onClose, onSaved }: { item: Collection; onClose: () => v
     if (!form.title || !form.image_url) return toast.error("Título e imagem são obrigatórios");
     setSaving(true);
     const payload = {
-      title: form.title, subtitle: form.subtitle || null, image_url: form.image_url,
-      redirect_url: form.redirect_url || null, order_position: form.order_position, active: form.active,
+      title: form.title,
+      subtitle: form.subtitle || null,
+      image_url: form.image_url,
+      redirect_url: form.redirect_url || null,
+      order_position: form.order_position,
+      active: form.active,
     };
     const { error } = form.id
       ? await supabase.from("homepage_collections").update(payload).eq("id", form.id)
@@ -123,40 +175,85 @@ function Editor({ item, onClose, onSaved }: { item: Collection; onClose: () => v
   const label = "text-xs tracking-editorial uppercase mb-1.5 block";
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
-      <form onSubmit={save} onClick={(e) => e.stopPropagation()} className="bg-background rounded-sm max-w-2xl w-full p-6 space-y-4 my-8">
+    <div
+      className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      onClick={onClose}
+    >
+      <form
+        onSubmit={save}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-background rounded-sm max-w-2xl w-full p-6 space-y-4 my-8"
+      >
         <h2 className="font-display text-2xl">{form.id ? "Editar coleção" : "Nova coleção"}</h2>
         <div>
           <label className={label}>Imagem *</label>
-          <ImageUploader value={form.image_url} onChange={(url) => setForm({ ...form, image_url: url })} folder="collections" />
+          <ImageUploader
+            value={form.image_url}
+            onChange={(url) => setForm({ ...form, image_url: url })}
+            folder="collections"
+          />
         </div>
         <div>
           <label className={label}>Título *</label>
-          <input className={input} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+          <input
+            className={input}
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            required
+          />
         </div>
         <div>
           <label className={label}>Subtítulo</label>
-          <input className={input} value={form.subtitle ?? ""} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} />
+          <input
+            className={input}
+            value={form.subtitle ?? ""}
+            onChange={(e) => setForm({ ...form, subtitle: e.target.value })}
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2">
             <label className={label}>Link de redirecionamento</label>
-            <input className={input} placeholder="/loja?cat=vestidos" value={form.redirect_url ?? ""} onChange={(e) => setForm({ ...form, redirect_url: e.target.value })} />
+            <input
+              className={input}
+              placeholder="/loja?cat=vestidos"
+              value={form.redirect_url ?? ""}
+              onChange={(e) => setForm({ ...form, redirect_url: e.target.value })}
+            />
           </div>
           <div>
             <label className={label}>Ordem</label>
-            <input type="number" className={input} value={form.order_position} onChange={(e) => setForm({ ...form, order_position: parseInt(e.target.value || "0") })} />
+            <input
+              type="number"
+              className={input}
+              value={form.order_position}
+              onChange={(e) =>
+                setForm({ ...form, order_position: parseInt(e.target.value || "0") })
+              }
+            />
           </div>
           <label className="flex items-end gap-2 text-sm pb-2">
-            <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} />
+            <input
+              type="checkbox"
+              checked={form.active}
+              onChange={(e) => setForm({ ...form, active: e.target.checked })}
+            />
             Ativa
           </label>
         </div>
         <div className="flex gap-3 pt-2">
-          <button disabled={saving} className="bg-primary text-primary-foreground px-5 py-2.5 text-xs tracking-editorial uppercase rounded-sm disabled:opacity-50">
+          <button
+            disabled={saving}
+            className="bg-primary text-primary-foreground px-5 py-2.5 text-xs tracking-editorial uppercase rounded-sm disabled:opacity-50"
+          >
             {saving ? "Salvando..." : "Salvar"}
           </button>
-          <button type="button" onClick={onClose} className="border border-border px-5 py-2.5 text-xs tracking-editorial uppercase rounded-sm">Cancelar</button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="border border-border px-5 py-2.5 text-xs tracking-editorial uppercase rounded-sm"
+          >
+            Cancelar
+          </button>
         </div>
       </form>
     </div>

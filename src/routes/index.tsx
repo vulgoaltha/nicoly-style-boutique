@@ -15,7 +15,11 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Nicoly Modas — Moda Feminina Premium" },
-      { name: "description", content: "Coleções de vestidos, blusas e conjuntos. Estilo elegante e atemporal para mulheres modernas." },
+      {
+        name: "description",
+        content:
+          "Coleções de vestidos, blusas e conjuntos. Estilo elegante e atemporal para mulheres modernas.",
+      },
     ],
   }),
 });
@@ -33,7 +37,7 @@ function Home() {
         .eq("is_featured", true)
         .limit(8);
       if (error) throw error;
-      return data as Product[];
+      return data as unknown as Product[];
     },
   });
 
@@ -48,7 +52,7 @@ function Home() {
         .order("created_at", { ascending: false })
         .limit(8);
       if (error) throw error;
-      return data as Product[];
+      return data as unknown as Product[];
     },
   });
 
@@ -87,9 +91,7 @@ function Home() {
       <section className="container-editorial my-20">
         <div className="relative bg-primary text-primary-foreground overflow-hidden rounded-sm">
           <div className="p-10 md:p-20 max-w-xl">
-            <span className="text-xs tracking-editorial uppercase text-blush">
-              Edição limitada
-            </span>
+            <span className="text-xs tracking-editorial uppercase text-blush">Edição limitada</span>
             <h2 className="font-display text-4xl md:text-5xl mt-3 leading-tight">
               Looks que contam histórias.
             </h2>
@@ -106,7 +108,12 @@ function Home() {
         </div>
       </section>
 
-      <Section title="Em destaque" subtitle="Selecionados da coleção" link="/loja" products={featured} />
+      <Section
+        title="Em destaque"
+        subtitle="Selecionados da coleção"
+        link="/loja"
+        products={featured}
+      />
 
       {/* Instagram */}
       {instagram?.active && (
@@ -165,12 +172,17 @@ function Section({
           <span className="text-xs tracking-editorial uppercase text-blush-deep">{subtitle}</span>
           <h2 className="font-display text-4xl mt-1">{title}</h2>
         </div>
-        <Link to={link} className="text-xs tracking-editorial uppercase hover:text-blush transition hidden sm:block">
+        <Link
+          to={link}
+          className="text-xs tracking-editorial uppercase hover:text-blush transition hidden sm:block"
+        >
           Ver tudo →
         </Link>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10">
-        {products.map((p) => <ProductCard key={p.id} product={p} />)}
+        {products.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
       </div>
     </section>
   );

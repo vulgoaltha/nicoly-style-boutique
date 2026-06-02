@@ -11,7 +11,9 @@ function AdminHome() {
   const { data: stats } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
-      const { data: products } = await supabase.from("products").select("id, stock, is_active, is_featured");
+      const { data: products } = await supabase
+        .from("products")
+        .select("id, stock, is_active, is_featured");
       const list = products ?? [];
       return {
         total: list.length,
@@ -38,7 +40,9 @@ function AdminHome() {
         {cards.map((c) => (
           <div key={c.label} className="bg-background border border-border rounded-sm p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs tracking-editorial uppercase text-muted-foreground">{c.label}</span>
+              <span className="text-xs tracking-editorial uppercase text-muted-foreground">
+                {c.label}
+              </span>
               <c.icon className="h-4 w-4 text-blush" />
             </div>
             <div className="font-display text-4xl mt-3">{c.value}</div>
@@ -49,7 +53,13 @@ function AdminHome() {
       <div className="bg-background border border-border rounded-sm p-6">
         <h2 className="font-medium mb-2">Próximos passos</h2>
         <ul className="text-sm text-muted-foreground space-y-2">
-          <li>• Cadastre seus produtos em <Link to="/admin/produtos" className="text-blush underline">Produtos</Link>.</li>
+          <li>
+            • Cadastre seus produtos em{" "}
+            <Link to="/admin/produtos" className="text-blush underline">
+              Produtos
+            </Link>
+            .
+          </li>
           <li>• Marque alguns como "em destaque" para aparecerem na home.</li>
           <li>• O checkout com Mercado Pago será adicionado na próxima fase.</li>
         </ul>

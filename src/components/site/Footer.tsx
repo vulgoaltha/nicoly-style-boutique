@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
 import { useInstagram } from "@/hooks/use-site-settings";
 
-
 export function Footer() {
   const { data: instagram } = useInstagram();
   return (
@@ -27,14 +26,21 @@ export function Footer() {
           )}
         </div>
 
-
         <div>
           <h4 className="text-xs tracking-editorial uppercase mb-3">Loja</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/loja">Todos os produtos</Link></li>
-            <li><Link to="/loja?cat=vestidos">Vestidos</Link></li>
-            <li><Link to="/loja?cat=blusas">Blusas</Link></li>
-            <li><Link to="/loja?cat=conjuntos">Conjuntos</Link></li>
+            <li>
+              <Link to="/loja">Todos os produtos</Link>
+            </li>
+            <li>
+              <Link to="/loja" search={{ cat: "vestidos" }}>Vestidos</Link>
+            </li>
+            <li>
+              <Link to="/loja" search={{ cat: "blusas" }}>Blusas</Link>
+            </li>
+            <li>
+              <Link to="/loja" search={{ cat: "conjuntos" }}>Conjuntos</Link>
+            </li>
           </ul>
         </div>
 
@@ -49,9 +55,7 @@ export function Footer() {
 
         <div>
           <h4 className="text-xs tracking-editorial uppercase mb-3">Newsletter</h4>
-          <p className="text-sm text-muted-foreground mb-3">
-            Lançamentos e promoções exclusivas.
-          </p>
+          <p className="text-sm text-muted-foreground mb-3">Lançamentos e promoções exclusivas.</p>
           <form className="flex gap-2">
             <input
               type="email"

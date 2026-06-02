@@ -31,7 +31,9 @@ function AdminOrders() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("orders")
-        .select("id, order_number, customer_name, customer_email, status, payment_status, total, created_at")
+        .select(
+          "id, order_number, customer_name, customer_email, status, payment_status, total, created_at",
+        )
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
@@ -65,7 +67,11 @@ function AdminOrders() {
               {orders.map((o) => (
                 <tr key={o.id} className="border-t border-border hover:bg-secondary/30">
                   <td className="p-3">
-                    <Link to="/admin/pedidos/$id" params={{ id: o.id }} className="font-medium hover:text-blush">
+                    <Link
+                      to="/admin/pedidos/$id"
+                      params={{ id: o.id }}
+                      className="font-medium hover:text-blush"
+                    >
                       {o.order_number}
                     </Link>
                   </td>
@@ -73,10 +79,14 @@ function AdminOrders() {
                     <div>{o.customer_name}</div>
                     <div className="text-xs text-muted-foreground">{o.customer_email}</div>
                   </td>
-                  <td className="p-3 text-muted-foreground">{new Date(o.created_at).toLocaleDateString("pt-BR")}</td>
+                  <td className="p-3 text-muted-foreground">
+                    {new Date(o.created_at).toLocaleDateString("pt-BR")}
+                  </td>
                   <td className="p-3">{brl(Number(o.total))}</td>
                   <td className="p-3">
-                    <span className={`text-xs px-2 py-1 rounded ${STATUS_COLOR[o.status] ?? "bg-secondary"}`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded ${STATUS_COLOR[o.status] ?? "bg-secondary"}`}
+                    >
                       {STATUS_LABEL[o.status] ?? o.status}
                     </span>
                   </td>

@@ -19,7 +19,7 @@ export function ProductForm({ productId }: Props) {
     queryKey: ["categories"],
     queryFn: async () => {
       const { data } = await supabase.from("categories").select("*").order("name");
-      return (data ?? []) as Category[];
+      return (data ?? []) as unknown as Category[];
     },
   });
 
@@ -27,9 +27,13 @@ export function ProductForm({ productId }: Props) {
     queryKey: ["product-edit", productId],
     enabled: isEdit,
     queryFn: async () => {
-      const { data, error } = await supabase.from("products").select("*").eq("id", productId!).single();
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", productId!)
+        .single();
       if (error) throw error;
-      return data as Product;
+      return data as unknown as Product;
     },
   });
 
@@ -108,8 +112,14 @@ export function ProductForm({ productId }: Props) {
         sale_price: form.sale_price ? parseFloat(form.sale_price) : null,
         stock: parseInt(form.stock || "0"),
         sku: form.sku || null,
-        sizes: form.sizes.split(",").map((s) => s.trim()).filter(Boolean),
-        colors: form.colors.split(",").map((s) => s.trim()).filter(Boolean),
+        sizes: form.sizes
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        colors: form.colors
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
         images,
         is_featured: form.is_featured,
         is_new: form.is_new,
@@ -144,56 +154,115 @@ export function ProductForm({ productId }: Props) {
       <div className="bg-background border border-border rounded-sm p-6 space-y-4">
         <div>
           <label className={label}>Nome *</label>
-          <input className={input} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+          <input
+            className={input}
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
         </div>
         <div>
           <label className={label}>Descrição</label>
-          <textarea className={input} rows={4} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+          <textarea
+            className={input}
+            rows={4}
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+          />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <label className={label}>Categoria</label>
-            <select className={input} value={form.category_id} onChange={(e) => setForm({ ...form, category_id: e.target.value })}>
+            <select
+              className={input}
+              value={form.category_id}
+              onChange={(e) => setForm({ ...form, category_id: e.target.value })}
+            >
               <option value="">—</option>
-              {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
             </select>
           </div>
           <div>
             <label className={label}>SKU</label>
-            <input className={input} value={form.sku} onChange={(e) => setForm({ ...form, sku: e.target.value })} />
+            <input
+              className={input}
+              value={form.sku}
+              onChange={(e) => setForm({ ...form, sku: e.target.value })}
+            />
           </div>
           <div>
             <label className={label}>Estoque</label>
-            <input type="number" min={0} className={input} value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} />
+            <input
+              type="number"
+              min={0}
+              className={input}
+              value={form.stock}
+              onChange={(e) => setForm({ ...form, stock: e.target.value })}
+            />
           </div>
           <div>
             <label className={label}>Preço (R$) *</label>
-            <input type="number" step="0.01" min={0} className={input} value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
+            <input
+              type="number"
+              step="0.01"
+              min={0}
+              className={input}
+              value={form.price}
+              onChange={(e) => setForm({ ...form, price: e.target.value })}
+              required
+            />
           </div>
           <div>
             <label className={label}>Preço promo (R$)</label>
-            <input type="number" step="0.01" min={0} className={input} value={form.sale_price} onChange={(e) => setForm({ ...form, sale_price: e.target.value })} />
+            <input
+              type="number"
+              step="0.01"
+              min={0}
+              className={input}
+              value={form.sale_price}
+              onChange={(e) => setForm({ ...form, sale_price: e.target.value })}
+            />
           </div>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className={label}>Tamanhos (separados por vírgula)</label>
-            <input className={input} placeholder="P, M, G, GG" value={form.sizes} onChange={(e) => setForm({ ...form, sizes: e.target.value })} />
+            <input
+              className={input}
+              placeholder="P, M, G, GG"
+              value={form.sizes}
+              onChange={(e) => setForm({ ...form, sizes: e.target.value })}
+            />
           </div>
           <div>
             <label className={label}>Cores (separadas por vírgula)</label>
-            <input className={input} placeholder="Rosa, Preto, Off-white" value={form.colors} onChange={(e) => setForm({ ...form, colors: e.target.value })} />
+            <input
+              className={input}
+              placeholder="Rosa, Preto, Off-white"
+              value={form.colors}
+              onChange={(e) => setForm({ ...form, colors: e.target.value })}
+            />
           </div>
         </div>
         <div className="flex flex-wrap gap-4 text-sm pt-2">
-          {([
-            ["is_active", "Ativo"],
-            ["is_featured", "Destaque"],
-            ["is_new", "Novidade"],
-            ["is_on_sale", "Em promoção"],
-          ] as const).map(([k, l]) => (
+          {(
+            [
+              ["is_active", "Ativo"],
+              ["is_featured", "Destaque"],
+              ["is_new", "Novidade"],
+              ["is_on_sale", "Em promoção"],
+            ] as const
+          ).map(([k, l]) => (
             <label key={k} className="flex items-center gap-2">
-              <input type="checkbox" checked={(form as any)[k]} onChange={(e) => setForm({ ...form, [k]: e.target.checked })} />
+              <input
+                type="checkbox"
+                checked={form[k as keyof typeof form] as boolean}
+                onChange={(e) => setForm({ ...form, [k]: e.target.checked })}
+              />
               {l}
             </label>
           ))}
@@ -204,7 +273,10 @@ export function ProductForm({ productId }: Props) {
         <label className={label}>Imagens</label>
         <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-3">
           {images.map((url, i) => (
-            <div key={i} className="relative aspect-square bg-secondary rounded-sm overflow-hidden group">
+            <div
+              key={i}
+              className="relative aspect-square bg-secondary rounded-sm overflow-hidden group"
+            >
               <img src={url} alt="" className="h-full w-full object-cover" />
               <button
                 type="button"
@@ -230,10 +302,18 @@ export function ProductForm({ productId }: Props) {
       </div>
 
       <div className="flex gap-3">
-        <button type="submit" disabled={saving} className="bg-primary text-primary-foreground px-6 py-3 text-xs tracking-editorial uppercase rounded-sm disabled:opacity-50">
+        <button
+          type="submit"
+          disabled={saving}
+          className="bg-primary text-primary-foreground px-6 py-3 text-xs tracking-editorial uppercase rounded-sm disabled:opacity-50"
+        >
           {saving ? "Salvando..." : isEdit ? "Salvar alterações" : "Criar produto"}
         </button>
-        <button type="button" onClick={() => navigate({ to: "/admin/produtos" })} className="border border-border px-6 py-3 text-xs tracking-editorial uppercase rounded-sm">
+        <button
+          type="button"
+          onClick={() => navigate({ to: "/admin/produtos" })}
+          className="border border-border px-6 py-3 text-xs tracking-editorial uppercase rounded-sm"
+        >
           Cancelar
         </button>
       </div>

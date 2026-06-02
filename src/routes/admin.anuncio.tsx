@@ -77,7 +77,10 @@ function AdminAnnouncement() {
           style={{ animation: `marquee ${form.speed}s linear infinite`, width: "max-content" }}
         >
           {Array.from({ length: 12 }).map((_, i) => (
-            <span key={i} className="px-8 text-xs tracking-editorial uppercase font-medium inline-flex items-center">
+            <span
+              key={i}
+              className="px-8 text-xs tracking-editorial uppercase font-medium inline-flex items-center"
+            >
               {form.text || "—"}
               <span className="mx-4 opacity-50">✦</span>
             </span>

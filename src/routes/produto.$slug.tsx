@@ -76,9 +76,14 @@ function ProductPage() {
   return (
     <div className="container-editorial py-10 md:py-16">
       <nav className="text-xs text-muted-foreground mb-6 tracking-editorial uppercase">
-        <Link to="/" className="hover:text-foreground">Início</Link> /{" "}
-        <Link to="/loja" className="hover:text-foreground">Loja</Link> /{" "}
-        <span className="text-foreground">{product.name}</span>
+        <Link to="/" className="hover:text-foreground">
+          Início
+        </Link>{" "}
+        /{" "}
+        <Link to="/loja" className="hover:text-foreground">
+          Loja
+        </Link>{" "}
+        / <span className="text-foreground">{product.name}</span>
       </nav>
 
       <div className="grid md:grid-cols-2 gap-8 md:gap-12">
@@ -132,7 +137,12 @@ function ProductPage() {
           {product.colors.length > 0 && (
             <div>
               <div className="text-xs tracking-editorial uppercase mb-2">
-                Cor {color && <span className="text-muted-foreground normal-case tracking-normal">— {color}</span>}
+                Cor{" "}
+                {color && (
+                  <span className="text-muted-foreground normal-case tracking-normal">
+                    — {color}
+                  </span>
+                )}
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.colors.map((c) => (

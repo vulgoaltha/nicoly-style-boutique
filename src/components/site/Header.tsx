@@ -5,7 +5,6 @@ import { useCart } from "@/store/cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useInstagram } from "@/hooks/use-site-settings";
 
-
 const nav = [
   { to: "/", label: "Início" },
   { to: "/loja", label: "Loja" },
@@ -20,7 +19,6 @@ export function Header() {
   const { data: instagram } = useInstagram();
   const [open, setOpen] = useState(false);
 
-
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container-editorial flex h-16 items-center justify-between gap-6 md:h-20">
@@ -32,10 +30,7 @@ export function Header() {
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
 
-        <Link
-          to="/"
-          className="font-display text-2xl tracking-tight md:text-3xl"
-        >
+        <Link to="/" className="font-display text-2xl tracking-tight md:text-3xl">
           Nicoly <span className="text-blush">Modas</span>
         </Link>
 
@@ -81,7 +76,11 @@ export function Header() {
           >
             <User className="h-5 w-5" />
           </Link>
-          <Link to="/carrinho" className="relative p-2 hover:text-blush transition" aria-label="Sacola">
+          <Link
+            to="/carrinho"
+            className="relative p-2 hover:text-blush transition"
+            aria-label="Sacola"
+          >
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
               <span className="absolute -top-0.5 -right-0.5 bg-blush text-accent-foreground text-[10px] font-medium rounded-full h-4 w-4 flex items-center justify-center">
@@ -96,12 +95,7 @@ export function Header() {
         <nav className="md:hidden border-t border-border bg-background">
           <div className="container-editorial py-4 flex flex-col gap-3">
             {nav.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                onClick={() => setOpen(false)}
-                className="text-sm py-1"
-              >
+              <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="text-sm py-1">
                 {n.label}
               </Link>
             ))}

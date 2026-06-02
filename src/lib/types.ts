@@ -37,6 +37,7 @@ export type Product = {
   description: string | null;
   price: number;
   sale_price: number | null;
+  sku: string | null;
   images: string[];
   sizes: Size[];
   colors: Color[];
@@ -45,6 +46,7 @@ export type Product = {
   is_active: boolean;
   is_featured: boolean;
   is_new: boolean;
+  is_on_sale: boolean;
   category_id: string | null;
   category: Category | null;
   collection_id: string | null;
@@ -64,12 +66,7 @@ export type CartItem = {
   quantity: number;
 };
 
-export type OrderStatus =
-  | "pending"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled";
+export type OrderStatus = "pending" | "processing" | "shipped" | "delivered" | "cancelled";
 
 export type Order = {
   id: string;

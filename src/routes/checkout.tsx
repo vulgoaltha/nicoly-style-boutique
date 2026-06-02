@@ -42,15 +42,19 @@ function CheckoutPage() {
     return (
       <div className="container-editorial py-24 text-center">
         <h1 className="font-display text-3xl">Sua sacola está vazia</h1>
-        <Link to="/loja" className="mt-6 inline-block text-xs tracking-editorial uppercase underline">
+        <Link
+          to="/loja"
+          className="mt-6 inline-block text-xs tracking-editorial uppercase underline"
+        >
           Ver coleção
         </Link>
       </div>
     );
   }
 
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm((f) => ({ ...f, [k]: e.target.value }));
+  const set =
+    (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,7 +86,8 @@ function CheckoutPage() {
     }
   };
 
-  const input = "w-full border border-border bg-background rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-blush";
+  const input =
+    "w-full border border-border bg-background rounded-sm px-3 py-2.5 text-sm focus:outline-none focus:border-blush";
   const label = "block text-xs tracking-editorial uppercase text-muted-foreground mb-1.5";
 
   return (
@@ -96,15 +101,32 @@ function CheckoutPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className={label}>Nome completo</label>
-                <input required value={form.customer_name} onChange={set("customer_name")} className={input} />
+                <input
+                  required
+                  value={form.customer_name}
+                  onChange={set("customer_name")}
+                  className={input}
+                />
               </div>
               <div>
                 <label className={label}>E-mail</label>
-                <input required type="email" value={form.customer_email} onChange={set("customer_email")} className={input} />
+                <input
+                  required
+                  type="email"
+                  value={form.customer_email}
+                  onChange={set("customer_email")}
+                  className={input}
+                />
               </div>
               <div className="sm:col-span-2">
                 <label className={label}>Telefone / WhatsApp</label>
-                <input required value={form.customer_phone} onChange={set("customer_phone")} className={input} placeholder="(11) 99999-9999" />
+                <input
+                  required
+                  value={form.customer_phone}
+                  onChange={set("customer_phone")}
+                  className={input}
+                  placeholder="(11) 99999-9999"
+                />
               </div>
             </div>
           </section>
@@ -114,31 +136,66 @@ function CheckoutPage() {
             <div className="grid sm:grid-cols-6 gap-4">
               <div className="sm:col-span-2">
                 <label className={label}>CEP</label>
-                <input required value={form.shipping_cep} onChange={set("shipping_cep")} className={input} />
+                <input
+                  required
+                  value={form.shipping_cep}
+                  onChange={set("shipping_cep")}
+                  className={input}
+                />
               </div>
               <div className="sm:col-span-4">
                 <label className={label}>Rua</label>
-                <input required value={form.shipping_street} onChange={set("shipping_street")} className={input} />
+                <input
+                  required
+                  value={form.shipping_street}
+                  onChange={set("shipping_street")}
+                  className={input}
+                />
               </div>
               <div className="sm:col-span-2">
                 <label className={label}>Número</label>
-                <input required value={form.shipping_number} onChange={set("shipping_number")} className={input} />
+                <input
+                  required
+                  value={form.shipping_number}
+                  onChange={set("shipping_number")}
+                  className={input}
+                />
               </div>
               <div className="sm:col-span-4">
                 <label className={label}>Complemento</label>
-                <input value={form.shipping_complement} onChange={set("shipping_complement")} className={input} />
+                <input
+                  value={form.shipping_complement}
+                  onChange={set("shipping_complement")}
+                  className={input}
+                />
               </div>
               <div className="sm:col-span-3">
                 <label className={label}>Bairro</label>
-                <input required value={form.shipping_neighborhood} onChange={set("shipping_neighborhood")} className={input} />
+                <input
+                  required
+                  value={form.shipping_neighborhood}
+                  onChange={set("shipping_neighborhood")}
+                  className={input}
+                />
               </div>
               <div className="sm:col-span-2">
                 <label className={label}>Cidade</label>
-                <input required value={form.shipping_city} onChange={set("shipping_city")} className={input} />
+                <input
+                  required
+                  value={form.shipping_city}
+                  onChange={set("shipping_city")}
+                  className={input}
+                />
               </div>
               <div className="sm:col-span-1">
                 <label className={label}>UF</label>
-                <input required maxLength={2} value={form.shipping_state} onChange={set("shipping_state")} className={`${input} uppercase`} />
+                <input
+                  required
+                  maxLength={2}
+                  value={form.shipping_state}
+                  onChange={set("shipping_state")}
+                  className={`${input} uppercase`}
+                />
               </div>
             </div>
             <div>
@@ -152,7 +209,10 @@ function CheckoutPage() {
           <h2 className="font-display text-xl">Seu pedido</h2>
           <ul className="space-y-3 text-sm">
             {items.map((i) => (
-              <li key={`${i.productId}_${i.size}_${i.color}`} className="flex justify-between gap-2">
+              <li
+                key={`${i.productId}_${i.size}_${i.color}`}
+                className="flex justify-between gap-2"
+              >
                 <span className="text-muted-foreground">
                   {i.quantity}× {i.name}
                   {i.size && <span className="text-xs"> · {i.size}</span>}
@@ -162,9 +222,18 @@ function CheckoutPage() {
             ))}
           </ul>
           <div className="border-t border-border pt-4 space-y-1 text-sm">
-            <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>{brl(subtotal)}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Frete</span><span>A combinar</span></div>
-            <div className="flex justify-between font-medium pt-2 border-t border-border mt-2"><span>Total</span><span>{brl(subtotal)}</span></div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Subtotal</span>
+              <span>{brl(subtotal)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Frete</span>
+              <span>A combinar</span>
+            </div>
+            <div className="flex justify-between font-medium pt-2 border-t border-border mt-2">
+              <span>Total</span>
+              <span>{brl(subtotal)}</span>
+            </div>
           </div>
           <button
             type="submit"
@@ -174,7 +243,8 @@ function CheckoutPage() {
             {saving ? "Enviando..." : "Confirmar pedido"}
           </button>
           <p className="text-xs text-muted-foreground text-center">
-            Pagamento via Mercado Pago será habilitado na próxima fase. Por ora, o pedido fica como pendente e o time entra em contato.
+            Pagamento via Mercado Pago será habilitado na próxima fase. Por ora, o pedido fica como
+            pendente e o time entra em contato.
           </p>
         </aside>
       </form>

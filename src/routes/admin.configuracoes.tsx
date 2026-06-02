@@ -13,12 +13,20 @@ function AdminSettings() {
   const { data } = useQuery({
     queryKey: ["site-setting", "instagram", "admin"],
     queryFn: async () => {
-      const { data } = await supabase.from("site_settings").select("value").eq("key", "instagram").maybeSingle();
+      const { data } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "instagram")
+        .maybeSingle();
       return (data?.value as { username: string; url: string; active: boolean } | null) ?? null;
     },
   });
 
-  const [form, setForm] = useState({ username: "_nicoly.modas", url: "https://www.instagram.com/_nicoly.modas", active: true });
+  const [form, setForm] = useState({
+    username: "_nicoly.modas",
+    url: "https://www.instagram.com/_nicoly.modas",
+    active: true,
+  });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -49,18 +57,34 @@ function AdminSettings() {
         <h2 className="font-medium">Instagram</h2>
         <div>
           <label className={label}>Username (sem @)</label>
-          <input className={input} value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} />
+          <input
+            className={input}
+            value={form.username}
+            onChange={(e) => setForm({ ...form, username: e.target.value })}
+          />
         </div>
         <div>
           <label className={label}>URL completa</label>
-          <input className={input} type="url" value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} />
+          <input
+            className={input}
+            type="url"
+            value={form.url}
+            onChange={(e) => setForm({ ...form, url: e.target.value })}
+          />
         </div>
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} />
+          <input
+            type="checkbox"
+            checked={form.active}
+            onChange={(e) => setForm({ ...form, active: e.target.checked })}
+          />
           Exibir no site
         </label>
         <div className="pt-2">
-          <button disabled={saving} className="bg-primary text-primary-foreground px-5 py-2.5 text-xs tracking-editorial uppercase rounded-sm disabled:opacity-50">
+          <button
+            disabled={saving}
+            className="bg-primary text-primary-foreground px-5 py-2.5 text-xs tracking-editorial uppercase rounded-sm disabled:opacity-50"
+          >
             {saving ? "Salvando..." : "Salvar"}
           </button>
         </div>

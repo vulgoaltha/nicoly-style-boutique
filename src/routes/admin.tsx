@@ -1,6 +1,17 @@
 import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { LayoutDashboard, Package, ShoppingBag, LogOut, Store, Image as ImageIcon, Tags, Layers, Settings, Megaphone } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingBag,
+  LogOut,
+  Store,
+  Image as ImageIcon,
+  Tags,
+  Layers,
+  Settings,
+  Megaphone,
+} from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -26,9 +37,9 @@ function AdminLayout() {
       <div className="p-10 max-w-md mx-auto text-center">
         <h1 className="font-display text-2xl">Acesso restrito</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          Sua conta não tem permissão de administrador. Peça para o dono da loja
-          adicionar o papel <code>admin</code> ao seu usuário no painel da Lovable Cloud
-          (tabela <code>user_roles</code>, com seu user id e role = admin).
+          Sua conta não tem permissão de administrador. Peça para o dono da loja adicionar o papel{" "}
+          <code>admin</code> ao seu usuário no painel da Lovable Cloud (tabela{" "}
+          <code>user_roles</code>, com seu user id e role = admin).
         </p>
         <Link to="/" className="mt-6 inline-block text-xs tracking-editorial uppercase underline">
           Voltar à loja
@@ -47,7 +58,6 @@ function AdminLayout() {
     { to: "/admin/colecoes", label: "Coleções", icon: Layers },
     { to: "/admin/configuracoes", label: "Configurações", icon: Settings },
   ];
-
 
   return (
     <div className="min-h-screen flex bg-secondary/30">
@@ -75,11 +85,17 @@ function AdminLayout() {
           })}
         </nav>
         <div className="p-3 border-t border-border space-y-1">
-          <Link to="/" className="flex items-center gap-3 px-3 py-2 rounded-sm text-sm hover:bg-secondary">
+          <Link
+            to="/"
+            className="flex items-center gap-3 px-3 py-2 rounded-sm text-sm hover:bg-secondary"
+          >
             <Store className="h-4 w-4" /> Ver loja
           </Link>
           <button
-            onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/" }); }}
+            onClick={async () => {
+              await supabase.auth.signOut();
+              navigate({ to: "/" });
+            }}
             className="w-full flex items-center gap-3 px-3 py-2 rounded-sm text-sm hover:bg-secondary"
           >
             <LogOut className="h-4 w-4" /> Sair

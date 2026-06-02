@@ -42,7 +42,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="font-display text-2xl">Algo deu errado</h1>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <button
-          onClick={() => { router.invalidate(); reset(); }}
+          onClick={() => {
+            router.invalidate();
+            reset();
+          }}
           className="mt-6 rounded-sm bg-primary px-5 py-2.5 text-xs tracking-editorial uppercase text-primary-foreground"
         >
           Tentar novamente
@@ -58,7 +61,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Nicoly Modas — Moda Feminina Premium" },
-      { name: "description", content: "Vestidos, blusas e conjuntos selecionados. Estilo feminino, elegante e atemporal." },
+      {
+        name: "description",
+        content:
+          "Vestidos, blusas e conjuntos selecionados. Estilo feminino, elegante e atemporal.",
+      },
       { property: "og:title", content: "Nicoly Modas" },
       { property: "og:description", content: "Moda feminina premium. Coleções selecionadas." },
       { property: "og:type", content: "website" },

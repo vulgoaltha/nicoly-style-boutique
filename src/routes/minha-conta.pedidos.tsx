@@ -49,7 +49,12 @@ function MyOrdersPage() {
       ) : orders.length === 0 ? (
         <div className="text-center border border-border rounded-sm p-10">
           <p className="text-muted-foreground">Você ainda não fez pedidos.</p>
-          <Link to="/loja" className="mt-4 inline-block text-xs tracking-editorial uppercase underline">Ver coleção</Link>
+          <Link
+            to="/loja"
+            className="mt-4 inline-block text-xs tracking-editorial uppercase underline"
+          >
+            Ver coleção
+          </Link>
         </div>
       ) : (
         <ul className="space-y-3">
@@ -62,11 +67,15 @@ function MyOrdersPage() {
               >
                 <div>
                   <div className="font-medium">{o.order_number}</div>
-                  <div className="text-xs text-muted-foreground">{new Date(o.created_at).toLocaleDateString("pt-BR")}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {new Date(o.created_at).toLocaleDateString("pt-BR")}
+                  </div>
                 </div>
                 <div className="text-right">
                   <div className="font-medium">{brl(Number(o.total))}</div>
-                  <div className="text-xs text-muted-foreground">{STATUS_LABEL[o.status] ?? o.status}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {STATUS_LABEL[o.status] ?? o.status}
+                  </div>
                 </div>
               </Link>
             </li>

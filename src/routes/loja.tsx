@@ -15,7 +15,10 @@ export const Route = createFileRoute("/loja")({
   head: () => ({
     meta: [
       { title: "Loja — Nicoly Modas" },
-      { name: "description", content: "Catálogo completo Nicoly Modas: vestidos, blusas, saias, conjuntos e mais." },
+      {
+        name: "description",
+        content: "Catálogo completo Nicoly Modas: vestidos, blusas, saias, conjuntos e mais.",
+      },
     ],
   }),
 });
@@ -29,7 +32,7 @@ function Shop() {
     queryFn: async () => {
       const { data, error } = await supabase.from("categories").select("*").order("name");
       if (error) throw error;
-      return data as Category[];
+      return data as unknown as Category[];
     },
   });
 
@@ -43,7 +46,7 @@ function Shop() {
       }
       const { data, error } = await q.order("created_at", { ascending: false });
       if (error) throw error;
-      return data as Product[];
+      return data as unknown as Product[];
     },
     enabled: !cat || categories.length > 0,
   });
@@ -53,7 +56,7 @@ function Shop() {
       <div className="mb-8 md:mb-12">
         <span className="text-xs tracking-editorial uppercase text-blush-deep">Coleção</span>
         <h1 className="font-display text-4xl md:text-5xl mt-1">
-          {cat ? categories.find((c) => c.slug === cat)?.name ?? "Loja" : "Todos os produtos"}
+          {cat ? (categories.find((c) => c.slug === cat)?.name ?? "Loja") : "Todos os produtos"}
         </h1>
       </div>
 
@@ -95,7 +98,9 @@ function Shop() {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10">
-          {products.map((p) => <ProductCard key={p.id} product={p} />)}
+          {products.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
         </div>
       )}
     </div>

@@ -29,9 +29,7 @@ export function CollectionCards() {
   return (
     <section className="container-editorial my-20">
       <div className="mb-10 text-center">
-        <span className="text-xs tracking-editorial uppercase text-blush-deep">
-          Coleções
-        </span>
+        <span className="text-xs tracking-editorial uppercase text-blush-deep">Coleções</span>
         <h2 className="font-display text-4xl mt-2">Inspirações da estação</h2>
       </div>
 
@@ -43,9 +41,7 @@ export function CollectionCards() {
             className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-blush rounded-3xl"
           >
             {/* Card editorial premium */}
-            <div
-              className="relative overflow-hidden rounded-3xl shadow-md bg-gradient-to-br from-gray-50 to-gray-200 aspect-[4/3] transition-transform duration-500 group-hover:scale-[1.02] group-hover:shadow-lg"
-            >
+            <div className="relative overflow-hidden rounded-3xl shadow-md bg-gradient-to-br from-gray-50 to-gray-200 aspect-[4/3] transition-transform duration-500 group-hover:scale-[1.02] group-hover:shadow-lg">
               {/* Texto de fundo — camada 1 */}
               <div className="absolute inset-0 flex flex-col items-center justify-center px-6 pointer-events-none select-none">
                 <span className="text-[11px] tracking-[0.25em] uppercase text-[#FF4D94] font-bold mb-1">
@@ -75,9 +71,7 @@ export function CollectionCards() {
                   {c.subtitle}
                 </span>
               )}
-              <h3 className="font-display text-lg text-[#1a1a1a] leading-tight">
-                {c.title}
-              </h3>
+              <h3 className="font-display text-lg text-[#1a1a1a] leading-tight">{c.title}</h3>
             </div>
           </Link>
         ))}

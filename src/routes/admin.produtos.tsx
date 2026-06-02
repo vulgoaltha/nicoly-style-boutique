@@ -20,7 +20,7 @@ function AdminProducts() {
         .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as Product[];
+      return data as unknown as Product[];
     },
   });
 
@@ -71,7 +71,9 @@ function AdminProducts() {
                   <td className="p-3">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-12 bg-secondary rounded overflow-hidden flex-shrink-0">
-                        {p.images[0] && <img src={p.images[0]} alt="" className="h-full w-full object-cover" />}
+                        {p.images[0] && (
+                          <img src={p.images[0]} alt="" className="h-full w-full object-cover" />
+                        )}
                       </div>
                       <div>
                         <div className="font-medium">{p.name}</div>
@@ -82,7 +84,9 @@ function AdminProducts() {
                   <td className="p-3">{brl(p.sale_price ?? p.price)}</td>
                   <td className={`p-3 ${p.stock === 0 ? "text-destructive" : ""}`}>{p.stock}</td>
                   <td className="p-3">
-                    <span className={`text-xs px-2 py-1 rounded ${p.is_active ? "bg-blush-soft text-blush-deep" : "bg-secondary text-muted-foreground"}`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded ${p.is_active ? "bg-blush-soft text-blush-deep" : "bg-secondary text-muted-foreground"}`}
+                    >
                       {p.is_active ? "Ativo" : "Inativo"}
                     </span>
                   </td>
@@ -95,7 +99,10 @@ function AdminProducts() {
                       >
                         <Edit className="h-4 w-4" />
                       </Link>
-                      <button onClick={() => remove(p.id)} className="p-2 hover:bg-secondary rounded text-destructive">
+                      <button
+                        onClick={() => remove(p.id)}
+                        className="p-2 hover:bg-secondary rounded text-destructive"
+                      >
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </div>

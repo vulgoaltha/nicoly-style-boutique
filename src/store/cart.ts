@@ -51,12 +51,9 @@ export const useCart = create<CartState>()(
         })),
       setQty: (productId, qty, size, color) =>
         set((s) => ({
-          items: s.items
-            .map((i) =>
-              key(i) === key({ productId, size, color })
-                ? { ...i, quantity: Math.max(1, qty) }
-                : i,
-            ),
+          items: s.items.map((i) =>
+            key(i) === key({ productId, size, color }) ? { ...i, quantity: Math.max(1, qty) } : i,
+          ),
         })),
       clear: () => set({ items: [] }),
       setOpen: (open) => set({ isOpen: open }),

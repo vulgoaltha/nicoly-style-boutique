@@ -37,16 +37,13 @@ export function CategoriesCarousel() {
 
   if (!categories.length) return null;
 
-  const scroll = (dir: number) =>
-    ref.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
+  const scroll = (dir: number) => ref.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
 
   return (
     <section className="container-editorial my-14">
       <div className="flex items-end justify-between mb-6">
         <div>
-          <span className="text-xs tracking-editorial uppercase text-blush-deep">
-            Categorias
-          </span>
+          <span className="text-xs tracking-editorial uppercase text-blush-deep">Categorias</span>
           <h2 className="font-display text-3xl mt-1">Compre por estilo</h2>
         </div>
         <div className="hidden md:flex gap-2">
@@ -85,9 +82,7 @@ export function CategoriesCarousel() {
             >
               <CategoryIcon name={c.icon} />
             </div>
-            <div className="mt-3 text-xs tracking-editorial uppercase">
-              {c.title}
-            </div>
+            <div className="mt-3 text-xs tracking-editorial uppercase">{c.title}</div>
           </Link>
         ))}
       </div>

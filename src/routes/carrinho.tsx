@@ -18,7 +18,9 @@ function CartPage() {
       <div className="container-editorial py-24 text-center">
         <ShoppingBag className="h-12 w-12 mx-auto text-muted-foreground" />
         <h1 className="font-display text-3xl mt-4">Sua sacola está vazia</h1>
-        <p className="text-muted-foreground mt-2 text-sm">Explore nossa coleção e encontre seu próximo look.</p>
+        <p className="text-muted-foreground mt-2 text-sm">
+          Explore nossa coleção e encontre seu próximo look.
+        </p>
         <Link
           to="/loja"
           className="mt-6 inline-flex items-center bg-primary text-primary-foreground px-6 py-3 text-xs tracking-editorial uppercase rounded-sm"
@@ -40,12 +42,18 @@ function CartPage() {
             return (
               <div key={k} className="flex gap-4 border border-border p-4 rounded-sm">
                 <div className="w-24 h-32 bg-secondary rounded-sm overflow-hidden flex-shrink-0">
-                  {item.image && <img src={item.image} alt={item.name} className="h-full w-full object-cover" />}
+                  {item.image && (
+                    <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                  )}
                 </div>
                 <div className="flex-1 flex flex-col justify-between">
                   <div className="flex justify-between gap-3">
                     <div>
-                      <Link to="/produto/$slug" params={{ slug: item.slug }} className="font-medium hover:text-blush">
+                      <Link
+                        to="/produto/$slug"
+                        params={{ slug: item.slug }}
+                        className="font-medium hover:text-blush"
+                      >
                         {item.name}
                       </Link>
                       <div className="text-xs text-muted-foreground mt-1 space-x-2">
@@ -64,14 +72,18 @@ function CartPage() {
                   <div className="flex items-end justify-between">
                     <div className="flex items-center border border-border rounded-sm text-sm">
                       <button
-                        onClick={() => setQty(item.productId, item.quantity - 1, item.size, item.color)}
+                        onClick={() =>
+                          setQty(item.productId, item.quantity - 1, item.size, item.color)
+                        }
                         className="p-2"
                       >
                         <Minus className="h-3 w-3" />
                       </button>
                       <span className="w-8 text-center">{item.quantity}</span>
                       <button
-                        onClick={() => setQty(item.productId, item.quantity + 1, item.size, item.color)}
+                        onClick={() =>
+                          setQty(item.productId, item.quantity + 1, item.size, item.color)
+                        }
                         className="p-2"
                       >
                         <Plus className="h-3 w-3" />
@@ -106,7 +118,8 @@ function CartPage() {
             Finalizar compra
           </Link>
           <p className="text-xs text-muted-foreground text-center">
-            Pagamento via Mercado Pago em breve. Por ora, registramos o pedido e entramos em contato.
+            Pagamento via Mercado Pago em breve. Por ora, registramos o pedido e entramos em
+            contato.
           </p>
         </div>
       </div>
