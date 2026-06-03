@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -6,23 +6,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
-export const Route = createFileRoute("/admin/produtos")({
-  component: AdminProductsLayout,
+export const Route = createFileRoute("/admin/produtos/")({
+  component: AdminProducts,
 });
 
-function AdminProductsLayout() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isIndex = pathname === "/admin/produtos" || pathname === "/admin/produtos/";
-
-  // Quando estiver em /novo ou /$id, renderiza o formulário via Outlet
-  if (!isIndex) {
-    return <Outlet />;
-  }
-
-  return <AdminProductsList />;
-}
-
-function AdminProductsList() {
+function AdminProducts() {
   const qc = useQueryClient();
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["admin-products"],
