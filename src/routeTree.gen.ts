@@ -9,10 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as LojaRouteImport } from './routes/loja'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
+import { Route as AtualizarSenhaRouteImport } from './routes/atualizar-senha'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -30,6 +32,11 @@ import { Route as AdminProdutosNovoRouteImport } from './routes/admin.produtos.n
 import { Route as AdminProdutosIdRouteImport } from './routes/admin.produtos.$id'
 import { Route as AdminPedidosIdRouteImport } from './routes/admin.pedidos.$id'
 
+const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
+  id: '/recuperar-senha',
+  path: '/recuperar-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LojaRoute = LojaRouteImport.update({
   id: '/loja',
   path: '/loja',
@@ -48,6 +55,11 @@ const CheckoutRoute = CheckoutRouteImport.update({
 const CarrinhoRoute = CarrinhoRouteImport.update({
   id: '/carrinho',
   path: '/carrinho',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtualizarSenhaRoute = AtualizarSenhaRouteImport.update({
+  id: '/atualizar-senha',
+  path: '/atualizar-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -134,10 +146,12 @@ const AdminPedidosIdRoute = AdminPedidosIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/atualizar-senha': typeof AtualizarSenhaRoute
   '/carrinho': typeof CarrinhoRoute
   '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
   '/loja': typeof LojaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/admin/anuncio': typeof AdminAnuncioRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/categorias-home': typeof AdminCategoriasHomeRoute
@@ -155,10 +169,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/atualizar-senha': typeof AtualizarSenhaRoute
   '/carrinho': typeof CarrinhoRoute
   '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
   '/loja': typeof LojaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/admin/anuncio': typeof AdminAnuncioRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/categorias-home': typeof AdminCategoriasHomeRoute
@@ -178,10 +194,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/atualizar-senha': typeof AtualizarSenhaRoute
   '/carrinho': typeof CarrinhoRoute
   '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
   '/loja': typeof LojaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/admin/anuncio': typeof AdminAnuncioRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/categorias-home': typeof AdminCategoriasHomeRoute
@@ -202,10 +220,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/atualizar-senha'
     | '/carrinho'
     | '/checkout'
     | '/login'
     | '/loja'
+    | '/recuperar-senha'
     | '/admin/anuncio'
     | '/admin/banners'
     | '/admin/categorias-home'
@@ -223,10 +243,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/atualizar-senha'
     | '/carrinho'
     | '/checkout'
     | '/login'
     | '/loja'
+    | '/recuperar-senha'
     | '/admin/anuncio'
     | '/admin/banners'
     | '/admin/categorias-home'
@@ -245,10 +267,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/atualizar-senha'
     | '/carrinho'
     | '/checkout'
     | '/login'
     | '/loja'
+    | '/recuperar-senha'
     | '/admin/anuncio'
     | '/admin/banners'
     | '/admin/categorias-home'
@@ -268,10 +292,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AtualizarSenhaRoute: typeof AtualizarSenhaRoute
   CarrinhoRoute: typeof CarrinhoRoute
   CheckoutRoute: typeof CheckoutRoute
   LoginRoute: typeof LoginRoute
   LojaRoute: typeof LojaRoute
+  RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   MinhaContaPedidosRoute: typeof MinhaContaPedidosRoute
   PedidoIdRoute: typeof PedidoIdRoute
   ProdutoSlugRoute: typeof ProdutoSlugRoute
@@ -279,6 +305,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/recuperar-senha': {
+      id: '/recuperar-senha'
+      path: '/recuperar-senha'
+      fullPath: '/recuperar-senha'
+      preLoaderRoute: typeof RecuperarSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/loja': {
       id: '/loja'
       path: '/loja'
@@ -305,6 +338,13 @@ declare module '@tanstack/react-router' {
       path: '/carrinho'
       fullPath: '/carrinho'
       preLoaderRoute: typeof CarrinhoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atualizar-senha': {
+      id: '/atualizar-senha'
+      path: '/atualizar-senha'
+      fullPath: '/atualizar-senha'
+      preLoaderRoute: typeof AtualizarSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -475,10 +515,12 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AtualizarSenhaRoute: AtualizarSenhaRoute,
   CarrinhoRoute: CarrinhoRoute,
   CheckoutRoute: CheckoutRoute,
   LoginRoute: LoginRoute,
   LojaRoute: LojaRoute,
+  RecuperarSenhaRoute: RecuperarSenhaRoute,
   MinhaContaPedidosRoute: MinhaContaPedidosRoute,
   PedidoIdRoute: PedidoIdRoute,
   ProdutoSlugRoute: ProdutoSlugRoute,

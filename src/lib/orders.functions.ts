@@ -34,75 +34,29 @@ export const createOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => createOrderSchema.parse(input))
   .handler(async ({ data, context }) => {
-    const { supabase, userId } = context;
+    const { userId } = context;
 
-    // Re-fetch product prices server-side to avoid client tampering
-    const productIds = Array.from(new Set(data.items.map((i) => i.productId)));
-    const { data: products, error: prodErr } = await supabaseAdmin
-      .from("products")
-      .select("id, price, sale_price, stock, is_active, name, slug, images")
-      .in("id", productIds);
-    if (prodErr) throw new Error(prodErr.message);
+    // Removemos os itens do objeto 'data' principal para enviar separadamente
+    const { items, ...orderData } = data;
 
-    const productMap = new Map(products!.map((p) => [p.id, p]));
+    const itemsData = items.map((i) => ({
+      product_id: i.productId,
+      quantity: i.quantity,
+      size: i.size ?? null,
+      color: i.color ?? null,
+    }));
 
-    let subtotal = 0;
-    const validatedItems = data.items.map((it) => {
-      const p = productMap.get(it.productId);
-      if (!p || !p.is_active) throw new Error(`Produto indisponível: ${it.name}`);
-      if (p.stock < it.quantity) throw new Error(`Estoque insuficiente: ${p.name}`);
-      const unit = Number(p.sale_price ?? p.price);
-      subtotal += unit * it.quantity;
-      return {
-        product_id: p.id,
-        product_name: p.name,
-        product_slug: p.slug,
-        product_image: p.images?.[0] ?? null,
-        unit_price: unit,
-        size: it.size ?? null,
-        color: it.color ?? null,
-        quantity: it.quantity,
-      };
+    // Chamamos a RPC que processará tudo em uma única transação no banco
+    const { data: result, error } = await supabaseAdmin.rpc("create_order_transaction", {
+      p_user_id: userId,
+      p_order_data: orderData as any,
+      p_items_data: itemsData as any,
     });
 
-    const total = subtotal + data.shipping_cost;
-
-    const { data: order, error: orderErr } = await supabase
-      .from("orders")
-      .insert({
-        user_id: userId,
-        customer_name: data.customer_name,
-        customer_email: data.customer_email,
-        customer_phone: data.customer_phone,
-        shipping_cep: data.shipping_cep,
-        shipping_street: data.shipping_street,
-        shipping_number: data.shipping_number,
-        shipping_complement: data.shipping_complement ?? null,
-        shipping_neighborhood: data.shipping_neighborhood,
-        shipping_city: data.shipping_city,
-        shipping_state: data.shipping_state.toUpperCase(),
-        notes: data.notes ?? null,
-        subtotal,
-        shipping_cost: data.shipping_cost,
-        total,
-      })
-      .select("id, order_number")
-      .single();
-    if (orderErr) throw new Error(orderErr.message);
-
-    const { error: itemsErr } = await supabase
-      .from("order_items")
-      .insert(validatedItems.map((i) => ({ ...i, order_id: order.id })));
-    if (itemsErr) throw new Error(itemsErr.message);
-
-    // Decrement stock (admin client, bypasses RLS)
-    for (const it of validatedItems) {
-      const p = productMap.get(it.product_id)!;
-      await supabaseAdmin
-        .from("products")
-        .update({ stock: Math.max(0, p.stock - it.quantity) })
-        .eq("id", it.product_id);
+    if (error) {
+      // Repassa a mensagem de erro do Postgres (ex: "Estoque insuficiente para...")
+      throw new Error(error.message);
     }
 
-    return { id: order.id, order_number: order.order_number };
+    return result as { id: string; order_number: string };
   });

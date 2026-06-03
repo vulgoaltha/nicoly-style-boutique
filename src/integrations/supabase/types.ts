@@ -218,6 +218,13 @@ export type Database = {
           tracking_code: string | null;
           updated_at: string;
           user_id: string | null;
+          payment_gateway: string | null;
+          payment_gateway_id: string | null;
+          transaction_id: string | null;
+          pix_code: string | null;
+          pix_qrcode: string | null;
+          paid_at: string | null;
+          webhook_payload: Json | null;
         };
         Insert: {
           created_at?: string;
@@ -243,6 +250,13 @@ export type Database = {
           tracking_code?: string | null;
           updated_at?: string;
           user_id?: string | null;
+          payment_gateway?: string | null;
+          payment_gateway_id?: string | null;
+          transaction_id?: string | null;
+          pix_code?: string | null;
+          pix_qrcode?: string | null;
+          paid_at?: string | null;
+          webhook_payload?: Json | null;
         };
         Update: {
           created_at?: string;
@@ -268,8 +282,50 @@ export type Database = {
           tracking_code?: string | null;
           updated_at?: string;
           user_id?: string | null;
+          payment_gateway?: string | null;
+          payment_gateway_id?: string | null;
+          transaction_id?: string | null;
+          pix_code?: string | null;
+          pix_qrcode?: string | null;
+          paid_at?: string | null;
+          webhook_payload?: Json | null;
         };
         Relationships: [];
+      };
+      profiles: {
+        Row: {
+          cpf: string | null;
+          created_at: string;
+          id: string;
+          name: string;
+          phone: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          cpf?: string | null;
+          created_at?: string;
+          id: string;
+          name: string;
+          phone?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          cpf?: string | null;
+          created_at?: string;
+          id?: string;
+          name?: string;
+          phone?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       products: {
         Row: {

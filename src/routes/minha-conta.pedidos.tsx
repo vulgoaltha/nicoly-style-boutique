@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { brl } from "@/lib/format";
@@ -26,6 +27,20 @@ function MyOrdersPage() {
     if (!loading && !user) navigate({ to: "/login" });
   }, [loading, user, navigate]);
 
+  const { data: profile } = useQuery({
+    queryKey: ["profile", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user!.id)
+        .single();
+      if (error && error.code !== "PGRST116") throw error; // PGRST116 is 'not found'
+      return data;
+    },
+  });
+
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["my-orders", user?.id],
     enabled: !!user,
@@ -39,11 +54,36 @@ function MyOrdersPage() {
     },
   });
 
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success("Você saiu da sua conta.");
+      navigate({ to: "/login" });
+    } catch (error) {
+      toast.error("Erro ao sair.");
+    }
+  };
+
   if (!user) return null;
 
   return (
     <div className="container-editorial py-10 md:py-16 max-w-3xl">
-      <h1 className="font-display text-4xl mb-8">Meus pedidos</h1>
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <h1 className="font-display text-4xl">Minha conta</h1>
+          <p className="text-sm text-muted-foreground mt-2">
+            Olá, {profile?.name || user.email}
+          </p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="text-xs tracking-editorial uppercase text-red-600 hover:underline border border-red-200 bg-red-50 px-4 py-2 rounded-sm"
+        >
+          Sair da conta
+        </button>
+      </div>
+
+      <h2 className="text-xl font-medium mb-4">Meus pedidos</h2>
       {isLoading ? (
         <div className="text-center text-sm text-muted-foreground py-10">Carregando...</div>
       ) : orders.length === 0 ? (
