@@ -117,3 +117,18 @@ export type PromoBanner = {
   message: string;
   link_url: string | null;
 };
+
+export type CustomerReview = {
+  id: string;
+  order_id: string | null;
+  product_id: string | null;
+  customer_name: string;
+  customer_photo: string | null;
+  rating: number;
+  comment: string;
+  city: string | null;
+  state: string | null;
+  approved: boolean;
+  created_at: string;
+  product?: { name: string; images: string[] } | null;
+};

@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { ShoppingBag, User, Menu, X, Instagram } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Instagram, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/store/cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useInstagram } from "@/hooks/use-site-settings";
+import { supabase } from "@/integrations/supabase/client";
 
 const nav = [
   { to: "/", label: "Início" },
@@ -76,6 +77,19 @@ export function Header() {
           >
             <User className="h-5 w-5" />
           </Link>
+          {user && (
+            <button
+              onClick={async () => {
+                await supabase.auth.signOut();
+                window.location.href = "/login";
+              }}
+              className="p-2 hover:text-blush transition"
+              aria-label="Sair"
+              title="Sair"
+            >
+              <LogOut className="h-5 w-5" />
+            </button>
+          )}
           <Link
             to="/carrinho"
             className="relative p-2 hover:text-blush transition"

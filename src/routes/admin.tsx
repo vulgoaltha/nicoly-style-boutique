@@ -11,6 +11,7 @@ import {
   Layers,
   Settings,
   Megaphone,
+  Star,
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,6 +53,7 @@ function AdminLayout() {
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/admin/produtos", label: "Produtos", icon: Package },
     { to: "/admin/pedidos", label: "Pedidos", icon: ShoppingBag },
+    { to: "/admin/avaliacoes", label: "Avaliações", icon: Star },
     { to: "/admin/banners", label: "Banners", icon: ImageIcon },
     { to: "/admin/anuncio", label: "Barra de anúncios", icon: Megaphone },
     { to: "/admin/categorias-home", label: "Categorias home", icon: Tags },

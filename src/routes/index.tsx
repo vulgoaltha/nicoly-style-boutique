@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Truck, Shield, Sparkles, Instagram } from "lucide-react";
+import { ArrowRight, Truck, Shield, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ProductCard } from "@/components/site/ProductCard";
 import { HeroCarousel } from "@/components/site/HeroCarousel";
 import { AnnouncementMarquee } from "@/components/site/AnnouncementMarquee";
 import { CategoriesCarousel } from "@/components/site/CategoriesCarousel";
 import { CollectionCards } from "@/components/site/CollectionCards";
-import { useInstagram } from "@/hooks/use-site-settings";
+import { CustomerReviewsCarousel } from "@/components/site/CustomerReviewsCarousel";
 import type { Product } from "@/lib/types";
 
 export const Route = createFileRoute("/")({
@@ -25,7 +25,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { data: instagram } = useInstagram();
 
   const { data: featured = [] } = useQuery({
     queryKey: ["featured-products"],
@@ -115,40 +114,8 @@ function Home() {
         products={featured}
       />
 
-      {/* Instagram */}
-      {instagram?.active && (
-        <section className="container-editorial my-20">
-          <div className="text-center mb-8">
-            <span className="text-xs tracking-editorial uppercase text-blush-deep">Siga-nos</span>
-            <a
-              href={instagram.url}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-2 inline-flex items-center gap-2 font-display text-4xl md:text-5xl hover:text-blush transition"
-            >
-              <Instagram className="h-7 w-7" /> @{instagram.username}
-            </a>
-          </div>
-          <a
-            href={instagram.url}
-            target="_blank"
-            rel="noreferrer"
-            className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3"
-          >
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="aspect-square bg-blush-soft relative overflow-hidden group cursor-pointer"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-blush-soft to-blush/30" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/30 transition">
-                  <Instagram className="h-6 w-6 text-white" />
-                </div>
-              </div>
-            ))}
-          </a>
-        </section>
-      )}
+      {/* Avaliações */}
+      <CustomerReviewsCarousel />
     </div>
   );
 }

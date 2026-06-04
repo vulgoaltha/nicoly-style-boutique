@@ -27,6 +27,7 @@ import { Route as AdminConfiguracoesRouteImport } from './routes/admin.configura
 import { Route as AdminColecoesRouteImport } from './routes/admin.colecoes'
 import { Route as AdminCategoriasHomeRouteImport } from './routes/admin.categorias-home'
 import { Route as AdminBannersRouteImport } from './routes/admin.banners'
+import { Route as AdminAvaliacoesRouteImport } from './routes/admin.avaliacoes'
 import { Route as AdminAnuncioRouteImport } from './routes/admin.anuncio'
 import { Route as AdminProdutosIndexRouteImport } from './routes/admin.produtos.index'
 import { Route as AdminProdutosNovoRouteImport } from './routes/admin.produtos.novo'
@@ -123,6 +124,11 @@ const AdminBannersRoute = AdminBannersRouteImport.update({
   path: '/banners',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAvaliacoesRoute = AdminAvaliacoesRouteImport.update({
+  id: '/avaliacoes',
+  path: '/avaliacoes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAnuncioRoute = AdminAnuncioRouteImport.update({
   id: '/anuncio',
   path: '/anuncio',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/loja': typeof LojaRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/admin/anuncio': typeof AdminAnuncioRoute
+  '/admin/avaliacoes': typeof AdminAvaliacoesRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/categorias-home': typeof AdminCategoriasHomeRoute
   '/admin/colecoes': typeof AdminColecoesRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/loja': typeof LojaRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/admin/anuncio': typeof AdminAnuncioRoute
+  '/admin/avaliacoes': typeof AdminAvaliacoesRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/categorias-home': typeof AdminCategoriasHomeRoute
   '/admin/colecoes': typeof AdminColecoesRoute
@@ -208,6 +216,7 @@ export interface FileRoutesById {
   '/loja': typeof LojaRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
   '/admin/anuncio': typeof AdminAnuncioRoute
+  '/admin/avaliacoes': typeof AdminAvaliacoesRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/categorias-home': typeof AdminCategoriasHomeRoute
   '/admin/colecoes': typeof AdminColecoesRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/loja'
     | '/recuperar-senha'
     | '/admin/anuncio'
+    | '/admin/avaliacoes'
     | '/admin/banners'
     | '/admin/categorias-home'
     | '/admin/colecoes'
@@ -259,6 +269,7 @@ export interface FileRouteTypes {
     | '/loja'
     | '/recuperar-senha'
     | '/admin/anuncio'
+    | '/admin/avaliacoes'
     | '/admin/banners'
     | '/admin/categorias-home'
     | '/admin/colecoes'
@@ -283,6 +294,7 @@ export interface FileRouteTypes {
     | '/loja'
     | '/recuperar-senha'
     | '/admin/anuncio'
+    | '/admin/avaliacoes'
     | '/admin/banners'
     | '/admin/categorias-home'
     | '/admin/colecoes'
@@ -441,6 +453,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBannersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/avaliacoes': {
+      id: '/admin/avaliacoes'
+      path: '/avaliacoes'
+      fullPath: '/admin/avaliacoes'
+      preLoaderRoute: typeof AdminAvaliacoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/anuncio': {
       id: '/admin/anuncio'
       path: '/anuncio'
@@ -509,6 +528,7 @@ const AdminProdutosRouteWithChildren = AdminProdutosRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminAnuncioRoute: typeof AdminAnuncioRoute
+  AdminAvaliacoesRoute: typeof AdminAvaliacoesRoute
   AdminBannersRoute: typeof AdminBannersRoute
   AdminCategoriasHomeRoute: typeof AdminCategoriasHomeRoute
   AdminColecoesRoute: typeof AdminColecoesRoute
@@ -520,6 +540,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAnuncioRoute: AdminAnuncioRoute,
+  AdminAvaliacoesRoute: AdminAvaliacoesRoute,
   AdminBannersRoute: AdminBannersRoute,
   AdminCategoriasHomeRoute: AdminCategoriasHomeRoute,
   AdminColecoesRoute: AdminColecoesRoute,

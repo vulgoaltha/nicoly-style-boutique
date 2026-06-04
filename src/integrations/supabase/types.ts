@@ -449,6 +449,34 @@ export type Database = {
         };
         Returns: boolean;
       };
+      get_executive_financial_metrics: {
+        Args: Record<PropertyKey, never>;
+        Returns: Json;
+      };
+      get_order_funnel: {
+        Args: Record<PropertyKey, never>;
+        Returns: Json;
+      };
+      get_customer_insights: {
+        Args: Record<PropertyKey, never>;
+        Returns: Json;
+      };
+      get_product_performance: {
+        Args: {
+          p_interval?: string;
+        };
+        Returns: Json;
+      };
+      get_sales_chart_data: {
+        Args: {
+          p_interval?: string;
+        };
+        Returns: Json;
+      };
+      get_dashboard_alerts: {
+        Args: Record<PropertyKey, never>;
+        Returns: Json;
+      };
     };
     Enums: {
       app_role: "admin" | "user";
