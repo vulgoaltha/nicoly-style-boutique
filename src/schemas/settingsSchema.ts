@@ -40,14 +40,16 @@ export const adminAccountSchema = z.object({
 });
 
 // --- 5. Alteração de Senha ---
-export const changePasswordSchema = z.object({
-  current_password: z.string().min(6, "Senha atual é obrigatória"),
-  new_password: z.string().min(6, "Nova senha deve ter no mínimo 6 caracteres"),
-  confirm_password: z.string().min(6, "Confirmação de senha é obrigatória"),
-}).refine((data) => data.new_password === data.confirm_password, {
-  message: "As senhas não coincidem",
-  path: ["confirm_password"],
-});
+export const changePasswordSchema = z
+  .object({
+    current_password: z.string().min(6, "Senha atual é obrigatória"),
+    new_password: z.string().min(6, "Nova senha deve ter no mínimo 6 caracteres"),
+    confirm_password: z.string().min(6, "Confirmação de senha é obrigatória"),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "As senhas não coincidem",
+    path: ["confirm_password"],
+  });
 
 // --- 6. Alteração de Email ---
 export const changeEmailSchema = z.object({

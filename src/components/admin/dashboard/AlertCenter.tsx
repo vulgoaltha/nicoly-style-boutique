@@ -1,13 +1,22 @@
 import { Bell, PackageX, Clock, CreditCard, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useDashboardAlerts } from "@/hooks/useDashboardData";
 import { Badge } from "@/components/ui/badge";
 
 export function AlertCenter() {
   const { data, isLoading } = useDashboardAlerts();
 
-  const totalAlerts = (data?.low_stock?.length || 0) + (data?.pending_payments || 0) + (data?.delayed_orders || 0);
+  const totalAlerts =
+    (data?.low_stock?.length || 0) + (data?.pending_payments || 0) + (data?.delayed_orders || 0);
 
   return (
     <DropdownMenu>
@@ -18,7 +27,7 @@ export function AlertCenter() {
             <span className="absolute top-1 right-1 flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-500 text-[8px] font-bold text-white items-center justify-center">
-                {totalAlerts > 9 ? '9+' : totalAlerts}
+                {totalAlerts > 9 ? "9+" : totalAlerts}
               </span>
             </span>
           )}
@@ -30,10 +39,12 @@ export function AlertCenter() {
           <Badge variant="secondary">{totalAlerts} alertas</Badge>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        
+
         {isLoading ? (
           <div className="p-4 space-y-3">
-            {[1, 2, 3].map((i) => <div key={i} className="h-10 w-full animate-pulse bg-muted rounded"></div>)}
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-10 w-full animate-pulse bg-muted rounded"></div>
+            ))}
           </div>
         ) : totalAlerts === 0 ? (
           <div className="p-8 text-center text-sm text-muted-foreground flex flex-col items-center gap-2">
@@ -92,4 +103,3 @@ export function AlertCenter() {
     </DropdownMenu>
   );
 }
-

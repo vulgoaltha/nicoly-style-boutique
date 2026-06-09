@@ -8,8 +8,19 @@ import { useCart } from "@/store/cart";
 import { brl } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
+
 export const Route = createFileRoute("/produto/$slug")({
   component: ProductPage,
+  head: ({ params }) => ({
+    meta: [
+      { title: `Produto — Nicoly Modas` },
+      {
+        name: "description",
+        content: `Compre este produto incrível na Nicoly Modas. Moda feminina premium.`,
+      },
+    ],
+  }),
 });
 
 function ProductPage() {
@@ -25,7 +36,7 @@ function ProductPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("products")
-        .select("*")
+        .select("id,slug,name,price,sale_price,images,is_new,sku,stock,description,sizes,colors")
         .eq("slug", slug)
         .eq("is_active", true)
         .maybeSingle();
@@ -73,8 +84,28 @@ function ProductPage() {
     toast.success("Adicionado à sacola");
   };
 
+  const schemaOrgProduct = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    name: product.name,
+    image: product.images,
+    description: product.description || `Compre ${product.name} na Nicoly Modas`,
+    sku: product.sku || product.id,
+    offers: {
+      "@type": "Offer",
+      url: window.location.href,
+      priceCurrency: "BRL",
+      price: price,
+      itemCondition: "https://schema.org/NewCondition",
+      availability:
+        product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+  };
+
   return (
     <div className="container-editorial py-10 md:py-16">
+      <script type="application/ld+json">{JSON.stringify(schemaOrgProduct)}</script>
+
       <nav className="text-xs text-muted-foreground mb-6 tracking-editorial uppercase">
         <Link to="/" className="hover:text-foreground">
           Início
@@ -90,9 +121,10 @@ function ProductPage() {
         <div className="space-y-3">
           <div className="aspect-[3/4] bg-secondary rounded-sm overflow-hidden">
             {product.images[imgIdx] && (
-              <img
+              <OptimizedImage
                 src={product.images[imgIdx]}
                 alt={product.name}
+                containerClassName="h-full w-full"
                 className="h-full w-full object-cover"
               />
             )}
@@ -107,7 +139,12 @@ function ProductPage() {
                     i === imgIdx ? "border-blush" : "border-transparent"
                   }`}
                 >
-                  <img src={img} alt="" className="h-full w-full object-cover" />
+                  <OptimizedImage
+                    src={img}
+                    alt=""
+                    containerClassName="h-full w-full"
+                    className="h-full w-full object-cover"
+                  />
                 </button>
               ))}
             </div>

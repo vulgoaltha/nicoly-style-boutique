@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
+
 type Collection = {
   id: string;
   title: string;
@@ -22,6 +24,10 @@ export function CollectionCards() {
       if (error) throw error;
       return data as Collection[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   if (!collections.length) return null;
@@ -56,11 +62,11 @@ export function CollectionCards() {
               </div>
 
               {/* Imagem da modelo — camada 2 (acima do texto) */}
-              <img
+              <OptimizedImage
                 src={c.image_url}
                 alt={c.title}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-contain object-center transition-transform duration-700 group-hover:scale-105 z-10"
+                containerClassName="absolute inset-0 h-full w-full"
+                className="h-full w-full object-contain object-center transition-transform duration-700 group-hover:scale-105 z-10"
               />
             </div>
 

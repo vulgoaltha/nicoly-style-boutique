@@ -1,16 +1,24 @@
 import { useProductPerformance, useDashboardAlerts } from "@/hooks/useDashboardData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import { AlertTriangle } from "lucide-react";
 
 export function ProductsTab() {
-  const [interval, setInterval] = useState<'today' | 'week' | 'month'>('month');
+  const [interval, setInterval] = useState<"today" | "week" | "month">("month");
   const { data: topProducts, isLoading: isLoadingProducts } = useProductPerformance(interval);
   const { data: alertsData, isLoading: isLoadingAlerts } = useDashboardAlerts();
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value || 0);
+    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
+      value || 0,
+    );
   };
 
   return (
@@ -32,7 +40,9 @@ export function ProductsTab() {
         <CardContent>
           {isLoadingProducts ? (
             <div className="space-y-3">
-              {[1, 2, 3].map((i) => <div key={i} className="h-12 w-full animate-pulse bg-muted rounded"></div>)}
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-12 w-full animate-pulse bg-muted rounded"></div>
+              ))}
             </div>
           ) : (
             <div className="rounded-md border">
@@ -49,7 +59,11 @@ export function ProductsTab() {
                     <tr key={index} className="hover:bg-muted/30 transition-colors">
                       <td className="px-4 py-3 font-medium flex items-center gap-3">
                         {product.product_image && (
-                          <img src={product.product_image} alt={product.product_name} className="w-10 h-10 rounded object-cover" />
+                          <img
+                            src={product.product_image}
+                            alt={product.product_name}
+                            className="w-10 h-10 rounded object-cover"
+                          />
                         )}
                         <span className="truncate max-w-[200px]">{product.product_name}</span>
                       </td>
@@ -83,12 +97,17 @@ export function ProductsTab() {
         <CardContent className="p-0">
           {isLoadingAlerts ? (
             <div className="p-4 space-y-3">
-              {[1, 2].map((i) => <div key={i} className="h-10 w-full animate-pulse bg-rose-100 rounded"></div>)}
+              {[1, 2].map((i) => (
+                <div key={i} className="h-10 w-full animate-pulse bg-rose-100 rounded"></div>
+              ))}
             </div>
           ) : (
             <div className="divide-y divide-rose-100">
               {alertsData?.low_stock?.map((item: any) => (
-                <div key={item.id} className="p-4 flex items-center justify-between hover:bg-rose-50/50 transition-colors">
+                <div
+                  key={item.id}
+                  className="p-4 flex items-center justify-between hover:bg-rose-50/50 transition-colors"
+                >
                   <div>
                     <p className="font-medium text-sm">{item.name}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">SKU: {item.slug}</p>

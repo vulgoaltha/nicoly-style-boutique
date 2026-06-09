@@ -1,15 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import {
-  Star,
-  Check,
-  X,
-  Trash2,
-  MapPin,
-  ShoppingBag,
-  MessageSquare,
-} from "lucide-react";
+import { Star, Check, X, Trash2, MapPin, ShoppingBag, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { CustomerReview } from "@/lib/types";
@@ -90,10 +82,7 @@ function AdminReviews() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from("customer_reviews")
-        .delete()
-        .eq("id", id);
+      const { error } = await supabase.from("customer_reviews").delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -182,9 +171,7 @@ function AdminReviews() {
               onReject={() => rejectMutation.mutate(review.id)}
               onDelete={() => deleteMutation.mutate(review.id)}
               isLoading={
-                approveMutation.isPending ||
-                rejectMutation.isPending ||
-                deleteMutation.isPending
+                approveMutation.isPending || rejectMutation.isPending || deleteMutation.isPending
               }
             />
           ))}
@@ -231,9 +218,7 @@ function ReviewRow({
   return (
     <div
       className={`bg-background border rounded-sm p-5 flex flex-col sm:flex-row gap-4 transition ${
-        review.approved
-          ? "border-green-200 dark:border-green-900"
-          : "border-border"
+        review.approved ? "border-green-200 dark:border-green-900" : "border-border"
       }`}
     >
       {/* Avatar */}
@@ -272,9 +257,7 @@ function ReviewRow({
         </div>
 
         {/* Comment */}
-        <p className="text-sm text-foreground/80 leading-relaxed italic mb-3">
-          "{review.comment}"
-        </p>
+        <p className="text-sm text-foreground/80 leading-relaxed italic mb-3">"{review.comment}"</p>
 
         {/* Meta tags */}
         <div className="flex flex-wrap gap-2">

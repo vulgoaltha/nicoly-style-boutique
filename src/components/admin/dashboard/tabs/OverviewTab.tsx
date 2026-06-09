@@ -8,7 +8,9 @@ export function OverviewTab() {
   const { data: funnelData, isLoading: isLoadingFunnel } = useOrderFunnel();
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value || 0);
+    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
+      value || 0,
+    );
   };
 
   return (

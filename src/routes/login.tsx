@@ -38,13 +38,13 @@ function LoginPage() {
           },
         });
         if (error) throw error;
-        
+
         if (data?.session) {
-            toast.success("Cadastro realizado com sucesso!");
-            navigate({ to: "/minha-conta/pedidos" });
+          toast.success("Cadastro realizado com sucesso!");
+          navigate({ to: "/minha-conta/pedidos" });
         } else {
-            toast.success("Cadastro realizado! Verifique seu e-mail para confirmar a conta.");
-            setMode("login");
+          toast.success("Cadastro realizado! Verifique seu e-mail para confirmar a conta.");
+          setMode("login");
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -72,7 +72,9 @@ function LoginPage() {
         {mode === "signup" && (
           <>
             <div>
-              <label className="text-xs tracking-editorial uppercase mb-1.5 block">Nome Completo</label>
+              <label className="text-xs tracking-editorial uppercase mb-1.5 block">
+                Nome Completo
+              </label>
               <input
                 type="text"
                 required
@@ -82,28 +84,30 @@ function LoginPage() {
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs tracking-editorial uppercase mb-1.5 block">CPF</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="000.000.000-00"
-                    value={cpf}
-                    onChange={(e) => setCpf(e.target.value)}
-                    className="w-full border border-border rounded-sm px-3 py-2.5 text-sm bg-background"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs tracking-editorial uppercase mb-1.5 block">Telefone</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="(00) 00000-0000"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full border border-border rounded-sm px-3 py-2.5 text-sm bg-background"
-                  />
-                </div>
+              <div>
+                <label className="text-xs tracking-editorial uppercase mb-1.5 block">CPF</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="000.000.000-00"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                  className="w-full border border-border rounded-sm px-3 py-2.5 text-sm bg-background"
+                />
+              </div>
+              <div>
+                <label className="text-xs tracking-editorial uppercase mb-1.5 block">
+                  Telefone
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="(00) 00000-0000"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full border border-border rounded-sm px-3 py-2.5 text-sm bg-background"
+                />
+              </div>
             </div>
           </>
         )}
@@ -128,13 +132,16 @@ function LoginPage() {
             className="w-full border border-border rounded-sm px-3 py-2.5 text-sm bg-background"
           />
         </div>
-        
+
         {mode === "login" && (
-            <div className="flex justify-end">
-                <Link to="/recuperar-senha" className="text-xs text-muted-foreground hover:text-foreground">
-                    Esqueceu a senha?
-                </Link>
-            </div>
+          <div className="flex justify-end">
+            <Link
+              to="/recuperar-senha"
+              className="text-xs text-muted-foreground hover:text-foreground"
+            >
+              Esqueceu a senha?
+            </Link>
+          </div>
         )}
 
         <button

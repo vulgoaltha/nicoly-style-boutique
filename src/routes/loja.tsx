@@ -7,6 +7,7 @@ import type { Product, Category } from "@/lib/types";
 
 const search = z.object({
   cat: z.string().optional(),
+  page: z.number().optional().catch(1),
 });
 
 export const Route = createFileRoute("/loja")({
@@ -24,32 +25,54 @@ export const Route = createFileRoute("/loja")({
 });
 
 function Shop() {
-  const { cat } = Route.useSearch();
+  const { cat, page = 1 } = Route.useSearch();
   const navigate = Route.useNavigate();
+  const PAGE_SIZE = 12;
 
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("*").order("name");
+      const { data, error } = await supabase
+        .from("categories")
+        .select("id,name,slug")
+        .order("name");
       if (error) throw error;
       return data as unknown as Category[];
     },
   });
 
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ["shop-products", cat],
+  const { data, isLoading } = useQuery({
+    queryKey: ["shop-products", cat, page],
     queryFn: async () => {
-      let q = supabase.from("products").select("*, categories(slug)").eq("is_active", true);
+      let q = supabase
+        .from("products")
+        .select("id,slug,name,price,sale_price,images,is_new,category_id", { count: "exact" })
+        .eq("is_active", true);
+
       if (cat) {
         const c = categories.find((c) => c.slug === cat);
         if (c) q = q.eq("category_id", c.id);
       }
-      const { data, error } = await q.order("created_at", { ascending: false });
+
+      const from = (page - 1) * PAGE_SIZE;
+      const to = from + PAGE_SIZE - 1;
+
+      const { data, error, count } = await q
+        .order("created_at", { ascending: false })
+        .range(from, to);
+
       if (error) throw error;
-      return data as unknown as Product[];
+      return {
+        products: (data as unknown as Product[]) || [],
+        totalCount: count || 0,
+      };
     },
     enabled: !cat || categories.length > 0,
   });
+
+  const products = data?.products || [];
+  const totalCount = data?.totalCount || 0;
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
   return (
     <div className="container-editorial py-10 md:py-16">
@@ -62,7 +85,7 @@ function Shop() {
 
       <div className="flex flex-wrap gap-2 mb-10 border-b border-border pb-5">
         <button
-          onClick={() => navigate({ search: {} })}
+          onClick={() => navigate({ search: (prev) => ({ ...prev, cat: undefined, page: 1 }) })}
           className={`text-xs tracking-editorial uppercase px-3 py-1.5 rounded-sm transition ${
             !cat ? "bg-primary text-primary-foreground" : "hover:bg-secondary"
           }`}
@@ -72,7 +95,7 @@ function Shop() {
         {categories.map((c) => (
           <button
             key={c.id}
-            onClick={() => navigate({ search: { cat: c.slug } })}
+            onClick={() => navigate({ search: (prev) => ({ ...prev, cat: c.slug, page: 1 }) })}
             className={`text-xs tracking-editorial uppercase px-3 py-1.5 rounded-sm transition ${
               cat === c.slug ? "bg-primary text-primary-foreground" : "hover:bg-secondary"
             }`}
@@ -97,11 +120,35 @@ function Shop() {
           <p>Nenhum produto encontrado.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10">
-          {products.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10">
+            {products.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-4 mt-16 border-t border-border pt-8">
+              <button
+                disabled={page <= 1}
+                onClick={() => navigate({ search: (prev) => ({ ...prev, page: page - 1 }) })}
+                className="text-xs uppercase tracking-editorial px-4 py-2 border border-border rounded-sm hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
+              >
+                Anterior
+              </button>
+              <span className="text-xs text-muted-foreground">
+                Página {page} de {totalPages}
+              </span>
+              <button
+                disabled={page >= totalPages}
+                onClick={() => navigate({ search: (prev) => ({ ...prev, page: page + 1 }) })}
+                className="text-xs uppercase tracking-editorial px-4 py-2 border border-border rounded-sm hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
+              >
+                Próxima
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -34,18 +34,20 @@ export function useCustomerInsights() {
   });
 }
 
-export function useProductPerformance(interval: 'today' | 'week' | 'month' = 'month') {
+export function useProductPerformance(interval: "today" | "week" | "month" = "month") {
   return useQuery({
     queryKey: ["dashboard", "product-performance", interval],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_product_performance", { p_interval: interval });
+      const { data, error } = await supabase.rpc("get_product_performance", {
+        p_interval: interval,
+      });
       if (error) throw error;
       return data as any[];
     },
   });
 }
 
-export function useSalesChartData(interval: 'today' | 'week' | 'month' = 'month') {
+export function useSalesChartData(interval: "today" | "week" | "month" = "month") {
   return useQuery({
     queryKey: ["dashboard", "sales-chart", interval],
     queryFn: async () => {

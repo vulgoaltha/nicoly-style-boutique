@@ -3,6 +3,8 @@ import { useState } from "react";
 import type { Product } from "@/lib/types";
 import { brl } from "@/lib/format";
 
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
+
 export function ProductCard({ product }: { product: Product }) {
   const images = product.images ?? [];
   const img = images[0];
@@ -16,19 +18,17 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="relative aspect-[3/4] overflow-hidden bg-secondary rounded-sm">
         {img ? (
           <>
-            <img
+            <OptimizedImage
               src={img}
               alt={product.name}
-              loading="lazy"
               className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
                 hoverImg ? "group-hover:opacity-0" : ""
               }`}
             />
             {hoverImg && (
-              <img
+              <OptimizedImage
                 src={hoverImg}
                 alt={product.name}
-                loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105"
               />
             )}

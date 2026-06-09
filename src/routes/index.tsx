@@ -25,7 +25,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-
   const { data: featured = [] } = useQuery({
     queryKey: ["featured-products"],
     queryFn: async () => {

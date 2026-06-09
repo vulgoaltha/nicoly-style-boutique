@@ -87,6 +87,14 @@ export type Order = {
   created_at: string;
   updated_at: string;
   items: OrderItem[];
+  // Payment fields
+  payment_gateway?: string | null;
+  payment_gateway_id?: string | null;
+  transaction_id?: string | null;
+  pix_code?: string | null;
+  pix_qrcode?: string | null;
+  paid_at?: string | null;
+  webhook_payload?: Record<string, unknown> | null;
 };
 
 export type OrderItem = {

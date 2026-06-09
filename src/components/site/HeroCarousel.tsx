@@ -6,6 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero.jpg";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
+
 type Banner = {
   id: string;
   title: string;
@@ -38,6 +40,10 @@ export function HeroCarousel() {
       if (error) throw error;
       return data as Banner[];
     },
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const banners = data && data.length ? data : FALLBACK;
@@ -70,7 +76,12 @@ export function HeroCarousel() {
             transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0"
           >
-            <img src={b.image_url} alt={b.title} className="h-full w-full object-cover" />
+            <OptimizedImage
+              src={b.image_url}
+              alt={b.title}
+              containerClassName="h-full w-full"
+              className="h-full w-full object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
           </motion.div>
         </AnimatePresence>

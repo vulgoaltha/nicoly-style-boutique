@@ -62,7 +62,8 @@ function ReviewCard({ review }: { review: CustomerReview }) {
             {review.city && (
               <p className="text-[11px] text-muted-foreground flex items-center gap-1 truncate">
                 <MapPin className="h-2.5 w-2.5" />
-                {review.city}{review.state ? `, ${review.state}` : ""}
+                {review.city}
+                {review.state ? `, ${review.state}` : ""}
               </p>
             )}
           </div>
@@ -195,9 +196,7 @@ export function CustomerReviewsCarousel() {
                 onClick={() => emblaApi?.scrollTo(i)}
                 aria-label={`Avaliação ${i + 1}`}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === selectedIndex
-                    ? "w-6 bg-blush"
-                    : "w-1.5 bg-border hover:bg-blush/50"
+                  i === selectedIndex ? "w-6 bg-blush" : "w-1.5 bg-border hover:bg-blush/50"
                 }`}
               />
             ))}
@@ -206,14 +205,20 @@ export function CustomerReviewsCarousel() {
           {/* Prev / Next */}
           <div className="flex gap-2">
             <button
-              onClick={() => { emblaApi?.scrollPrev(); startAutoplay(); }}
+              onClick={() => {
+                emblaApi?.scrollPrev();
+                startAutoplay();
+              }}
               aria-label="Anterior"
               className="w-9 h-9 rounded-full border border-border bg-background hover:bg-blush-soft hover:border-blush/50 flex items-center justify-center transition"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
-              onClick={() => { emblaApi?.scrollNext(); startAutoplay(); }}
+              onClick={() => {
+                emblaApi?.scrollNext();
+                startAutoplay();
+              }}
               aria-label="Próximo"
               className="w-9 h-9 rounded-full border border-border bg-background hover:bg-blush-soft hover:border-blush/50 flex items-center justify-center transition"
             >

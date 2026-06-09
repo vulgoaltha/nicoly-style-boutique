@@ -71,9 +71,7 @@ function MyOrdersPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
           <h1 className="font-display text-4xl">Minha conta</h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            Olá, {profile?.name || user.email}
-          </p>
+          <p className="text-sm text-muted-foreground mt-2">Olá, {profile?.name || user.email}</p>
         </div>
         <button
           onClick={handleLogout}

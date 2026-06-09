@@ -33,13 +33,19 @@ export function Footer() {
               <Link to="/loja">Todos os produtos</Link>
             </li>
             <li>
-              <Link to="/loja" search={{ cat: "vestidos" }}>Vestidos</Link>
+              <Link to="/loja" search={{ cat: "vestidos" }}>
+                Vestidos
+              </Link>
             </li>
             <li>
-              <Link to="/loja" search={{ cat: "blusas" }}>Blusas</Link>
+              <Link to="/loja" search={{ cat: "blusas" }}>
+                Blusas
+              </Link>
             </li>
             <li>
-              <Link to="/loja" search={{ cat: "conjuntos" }}>Conjuntos</Link>
+              <Link to="/loja" search={{ cat: "conjuntos" }}>
+                Conjuntos
+              </Link>
             </li>
           </ul>
         </div>

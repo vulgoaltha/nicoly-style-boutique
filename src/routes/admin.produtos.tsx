@@ -10,6 +10,8 @@ export const Route = createFileRoute("/admin/produtos")({
   component: AdminProductsLayout,
 });
 
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
+
 function AdminProductsLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isIndex = pathname === "/admin/produtos" || pathname === "/admin/produtos/";
@@ -29,7 +31,7 @@ function AdminProductsList() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("products")
-        .select("*")
+        .select("id,slug,name,price,sale_price,images,sku,stock,is_active")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data as unknown as Product[];
@@ -84,7 +86,12 @@ function AdminProductsList() {
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-12 bg-secondary rounded overflow-hidden flex-shrink-0">
                         {p.images[0] && (
-                          <img src={p.images[0]} alt="" className="h-full w-full object-cover" />
+                          <OptimizedImage
+                            src={p.images[0]}
+                            alt=""
+                            containerClassName="h-full w-full"
+                            className="h-full w-full object-cover"
+                          />
                         )}
                       </div>
                       <div>

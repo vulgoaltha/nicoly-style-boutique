@@ -43,29 +43,26 @@ export function MetricCard({
   return (
     <Card className={cn("overflow-hidden", className)}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {title}
-        </CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
         {icon && <div className="text-muted-foreground">{icon}</div>}
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        
+
         {(description || trend) && (
           <div className="text-xs mt-1 flex items-center gap-2">
             {trend && (
               <span
                 className={cn(
                   "font-medium",
-                  trend.isPositive ? "text-emerald-500" : "text-rose-500"
+                  trend.isPositive ? "text-emerald-500" : "text-rose-500",
                 )}
               >
-                {trend.isPositive ? "+" : ""}{trend.value}%
+                {trend.isPositive ? "+" : ""}
+                {trend.value}%
               </span>
             )}
-            <span className="text-muted-foreground">
-              {trend ? trend.label : description}
-            </span>
+            <span className="text-muted-foreground">{trend ? trend.label : description}</span>
           </div>
         )}
       </CardContent>

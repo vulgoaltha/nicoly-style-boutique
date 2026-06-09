@@ -7,7 +7,9 @@ export function CustomersTab() {
   const { data, isLoading } = useCustomerInsights();
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value || 0);
+    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
+      value || 0,
+    );
   };
 
   return (
@@ -35,7 +37,11 @@ export function CustomersTab() {
         />
         <MetricCard
           title="Total na Base"
-          value={(data?.new_customers_month || 0) + (data?.recurring_customers || 0) + (data?.inactive_customers || 0)} // Estimativa visual
+          value={
+            (data?.new_customers_month || 0) +
+            (data?.recurring_customers || 0) +
+            (data?.inactive_customers || 0)
+          } // Estimativa visual
           icon={<Users className="w-4 h-4" />}
           isLoading={isLoading}
         />
