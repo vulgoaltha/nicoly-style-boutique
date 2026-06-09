@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageOff } from "lucide-react";
@@ -6,6 +6,7 @@ import { ImageOff } from "lucide-react";
 interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string;
   containerClassName?: string;
+  onLoad?: () => void;
 }
 
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
@@ -16,20 +17,18 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   containerClassName,
   width,
   height,
+  onLoad,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [currentSrc, setCurrentSrc] = useState<string | undefined>(src);
 
-  useEffect(() => {
-    setCurrentSrc(src);
-    setLoaded(false);
-    setError(false);
-  }, [src]);
-
   const handleLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     setLoaded(true);
+    if (onLoad) {
+      onLoad();
+    }
     if (props.onLoad) {
       props.onLoad(e);
     }
@@ -37,7 +36,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     setError(true);
-    setLoaded(true); // Stop loading if error
+    setLoaded(true);
     if (fallbackSrc && currentSrc !== fallbackSrc) {
       setCurrentSrc(fallbackSrc);
     }
@@ -55,7 +54,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         aspectRatio: width && height ? `${width}/${height}` : undefined,
       }}
     >
-      {!loaded && <Skeleton className="absolute inset-0 w-full h-full z-10" />}
+      {!loaded && <Skeleton className="absolute inset-0 w-full h-full z-10 rounded-sm" />}
 
       {error && !currentSrc ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-muted/40 text-muted-foreground p-2">
@@ -74,8 +73,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           onError={handleError}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           className={cn(
-            "transition-transform duration-300 ease-out",
-            loaded ? "scale-100" : "scale-[0.99]",
+            "transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
+            !loaded ? "opacity-0" : "opacity-100",
             className,
           )}
           {...props}
