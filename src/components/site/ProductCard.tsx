@@ -21,16 +21,14 @@ export function ProductCard({ product }: { product: Product }) {
             <OptimizedImage
               src={img}
               alt={product.name}
-              className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
-                hoverImg ? "group-hover:opacity-0" : ""
-              }`}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               containerClassName="absolute inset-0 w-full h-full"
             />
             {hoverImg && (
               <OptimizedImage
                 src={hoverImg}
                 alt={product.name}
-                className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105"
+                className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-hover:scale-[1.03]"
                 containerClassName="absolute inset-0 w-full h-full"
               />
             )}
