@@ -72,6 +72,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           decoding="async"
           onLoad={handleLoad}
           onError={handleError}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
           className={cn(
             "transition-all duration-500 ease-out",
             !loaded ? "scale-95 blur-md opacity-0" : "scale-100 blur-0 opacity-100",
