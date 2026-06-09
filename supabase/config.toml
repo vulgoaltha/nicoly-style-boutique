@@ -1,1 +1,58 @@
 project_id = "mjnsfkivjbfpxedydtkn"
+
+# Configuração de Autenticação (Auth)
+# Documentação: https://supabase.com/docs/guides/auth
+
+[auth]
+# URL do site principal (Site URL)
+# Usado para redirecionamentos após confirmação de email, recuperação de senha, etc.
+site_url = "https://modasnicoly.com.br"
+
+# URLs adicionais permitidas para redirecionamento (Redirect URLs)
+# Inclui localhost para desenvolvimento local e a URL de produção
+additional_redirect_urls = [
+  "http://localhost:5173",
+  "http://localhost:8080",
+  "https://modasnicoly.com.br",
+  "https://modasnicoly.com.br/login",
+  "https://modasnicoly.com.br/atualizar-senha"
+]
+
+# Configuração de e-mail (Email Configuration)
+[auth.email]
+# Habilita o provedor de e-mail (magic link, confirmação, etc.)
+enable_signup = true
+# Tempo de expiração do link de confirmação (em segundos)
+double_confirm_changes = true
+# URL para redirecionamento após confirmação de e-mail (Email Redirect URL)
+# Se definido, sobrescreve o redirecionamento padrão
+# confirm_redirect_url = "https://modasnicoly.com.br/login"
+
+[auth.email.template]
+# Caminhos para templates de e-mail personalizados (HTML)
+# Os templates suportam as variáveis mustache: {{ .SiteURL }}, {{ .ConfirmationURL }}, {{ .Token }}, {{ .TokenHash }}
+
+[auth.email.template.confirmation]
+# Template de confirmação de cadastro
+subject = "Confirme seu cadastro - Nicoly Modas"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.recovery]
+# Template de recuperação de senha
+subject = "Recuperação de Senha - Nicoly Modas"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.template.email_change]
+# Template de alteração de e-mail
+subject = "Alteração de E-mail - Nicoly Modas"
+content_path = "./supabase/templates/email_change.html"
+
+[auth.email.template.magic_link]
+# Template de Magic Link
+subject = "Link de Acesso - Nicoly Modas"
+content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.invite]
+# Template de convite
+subject = "Convite para a Nicoly Modas"
+content_path = "./supabase/templates/invite.html"

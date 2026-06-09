@@ -29,7 +29,7 @@ function LoginPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/login`,
+            emailRedirectTo: "https://modasnicoly.com.br/login",
             data: {
               name,
               cpf,
