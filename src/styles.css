@@ -48,23 +48,23 @@
   --radius: 0.5rem;
 
   /* Blush & Off-black premium palette */
-  --background: oklch(0.985 0.005 25);        /* #fdf8f6 off-white */
-  --foreground: oklch(0.18 0.01 30);          /* #1a1a1a ink */
+  --background: oklch(0.985 0.005 25); /* #fdf8f6 off-white */
+  --foreground: oklch(0.18 0.01 30); /* #1a1a1a ink */
   --ink: oklch(0.18 0.01 30);
 
-  --blush-soft: oklch(0.94 0.025 20);         /* #f5e0db */
-  --blush: oklch(0.74 0.11 15);               /* #d98a8a */
-  --blush-deep: oklch(0.58 0.13 18);          /* deeper rosé */
+  --blush-soft: oklch(0.94 0.025 20); /* #f5e0db */
+  --blush: oklch(0.74 0.11 15); /* #d98a8a */
+  --blush-deep: oklch(0.58 0.13 18); /* deeper rosé */
 
   --card: oklch(1 0 0);
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.18 0.01 30);             /* off-black */
+  --primary: oklch(0.18 0.01 30); /* off-black */
   --primary-foreground: oklch(0.985 0.005 25);
 
-  --secondary: oklch(0.94 0.025 20);          /* blush soft */
+  --secondary: oklch(0.94 0.025 20); /* blush soft */
   --secondary-foreground: var(--foreground);
 
   --muted: oklch(0.96 0.008 25);
@@ -113,7 +113,10 @@
     font-feature-settings: "ss01", "cv11";
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 500;
     letter-spacing: -0.01em;
@@ -131,7 +134,11 @@
     padding-inline: 1.25rem;
   }
   @media (min-width: 768px) {
-    .container-editorial { padding-inline: 2.5rem; }
+    .container-editorial {
+      padding-inline: 2.5rem;
+    }
   }
-  .tracking-editorial { letter-spacing: 0.18em; }
+  .tracking-editorial {
+    letter-spacing: 0.18em;
+  }
 }

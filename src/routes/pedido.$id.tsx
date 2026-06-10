@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/lib/format";
+import { PaymentStatus } from "@/components/payment/PaymentStatus";
+import { PixDisplay } from "@/components/payment/PixDisplay";
+import type { PaymentStatusType, PaymentMethodType } from "@/components/payment/PaymentStatus";
 
 export const Route = createFileRoute("/pedido/$id")({
   component: OrderPage,
@@ -11,7 +14,7 @@ export const Route = createFileRoute("/pedido/$id")({
 const STATUS_LABEL: Record<string, string> = {
   pending: "Pendente",
   paid: "Pago",
-  processing: "Em separação",
+  processing: "Em separacao",
   shipped: "Enviado",
   delivered: "Entregue",
   cancelled: "Cancelado",
@@ -42,9 +45,9 @@ function OrderPage() {
   if (error || !data?.order) {
     return (
       <div className="container-editorial py-24 text-center">
-        <h1 className="font-display text-3xl">Pedido não encontrado</h1>
+        <h1 className="font-display text-3xl">Pedido nao encontrado</h1>
         <Link to="/" className="mt-6 inline-block text-xs tracking-editorial uppercase underline">
-          Voltar à loja
+          Voltar a loja
         </Link>
       </div>
     );
@@ -52,16 +55,47 @@ function OrderPage() {
 
   const { order, items } = data;
 
+  const paymentStatus: PaymentStatusType = order.payment_status ?? "unknown";
+  const paymentMethod: PaymentMethodType =
+    order.payment_method === "pix"
+      ? "pix"
+      : order.payment_method === "credit_card"
+        ? "credit_card"
+        : order.payment_method === "debit_card"
+          ? "debit_card"
+          : order.payment_method === "mercado_pago_balance"
+            ? "mercado_pago_balance"
+            : "unknown";
+
   return (
-    <div className="container-editorial py-10 md:py-16 max-w-3xl">
+    <div className="container-editorial overflow-x-hidden md:overflow-x-auto py-10 md:py-16 max-w-3xl mx-auto px-4">
       <div className="text-center mb-10">
         <CheckCircle2 className="h-12 w-12 mx-auto text-blush" />
         <h1 className="font-display text-4xl mt-4">Pedido confirmado</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          Número <span className="font-medium text-foreground">{order.order_number}</span> · Status:{" "}
+          Numero <span className="font-medium text-foreground">{order.order_number}</span> · Status:{" "}
           {STATUS_LABEL[order.status] ?? order.status}
         </p>
       </div>
+
+      <div className="mb-6">
+        <PaymentStatus
+          status={paymentStatus}
+          method={paymentMethod}
+          transactionId={order.transaction_id}
+          paidAt={order.paid_at}
+        />
+      </div>
+
+      {order.pix_code && order.payment_status === "pending" && (
+        <div className="mb-6">
+          <PixDisplay
+            qrCodeBase64={order.pix_qrcode}
+            pixCode={order.pix_code}
+            expirationDate={new Date(Date.now() + 30 * 60 * 1000).toISOString()}
+          />
+        </div>
+      )}
 
       <div className="border border-border rounded-sm overflow-hidden">
         <div className="p-6 bg-secondary/30 border-b border-border">

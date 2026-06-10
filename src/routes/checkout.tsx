@@ -6,7 +6,6 @@ import { useCart } from "@/store/cart";
 import { useAuth } from "@/hooks/use-auth";
 import { brl } from "@/lib/format";
 import { createOrder } from "@/lib/orders.functions";
-
 export const Route = createFileRoute("/checkout")({
   component: CheckoutPage,
 });
@@ -78,7 +77,8 @@ function CheckoutPage() {
       });
       clear();
       toast.success("Pedido criado com sucesso!");
-      navigate({ to: "/pedido/$id", params: { id: res.id } });
+      // Redirect to payment page instead of order detail
+      navigate({ to: "/checkout/pagamento/$orderId", params: { orderId: res.id } });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Erro ao criar pedido");
     } finally {
@@ -243,8 +243,8 @@ function CheckoutPage() {
             {saving ? "Enviando..." : "Confirmar pedido"}
           </button>
           <p className="text-xs text-muted-foreground text-center">
-            Pagamento via Mercado Pago será habilitado na próxima fase. Por ora, o pedido fica como
-            pendente e o time entra em contato.
+            Pagamento via Mercado Pago. Voce sera redirecionado para a pagina de pagamento apos
+            confirmar o pedido.
           </p>
         </aside>
       </form>

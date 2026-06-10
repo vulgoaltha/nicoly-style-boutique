@@ -9,7 +9,7 @@ Criar 3 novas tabelas + 1 de config:
 - `hero_banners` — title, subtitle, image_url, button_text, button_link, active, order_position
 - `homepage_categories` — title, icon (nome lucide), color (hex), slug, order_position, active
 - `homepage_collections` — title, subtitle, image_url, redirect_url, order_position, active
-- `site_settings` — key/value (JSONB) para Instagram (@_nicoly.modas) e outras configs
+- `site_settings` — key/value (JSONB) para Instagram (@\_nicoly.modas) e outras configs
 
 RLS: leitura pública das ativas; escrita só `admin` (mesmo padrão de `products`).
 
@@ -26,6 +26,7 @@ Atualizar `src/routes/index.tsx`: substituir o hero estático e a seção Instag
 ### Fase 3 — ProductCard hover 2ª imagem
 
 Editar `src/components/site/ProductCard.tsx`:
+
 - desktop: 2ª imagem aparece com fade no hover (preload via `<img>` oculto)
 - mobile: dots indicadores se houver >1 imagem
 - usa `product.images[1]` já existente — sem mudança no schema de produtos

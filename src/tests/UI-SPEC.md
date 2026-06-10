@@ -69,16 +69,16 @@ Desktop (> 1024px):
 
 ## Interactions
 
-| Elemento | Gesture/Trigger | Response | Timing | Easing |
-|----------|----------------|----------|--------|--------|
-| Card link | Click/tap | Navega para página de produto | 0ms | — |
-| Imagem | Hover (desktop mouse) | Troca para imagem hover | 200ms | cubic-bezier(0.4, 0, 0.2, 1) |
-| Imagem | Hover (desktop mouse) | Zoom suave (scale 1.03) | 200ms | cubic-bezier(0.4, 0, 0.2, 1) |
-| Imagem | Touch tap | Sem overlay, sem zoom (toggle de visualização única) | 0ms | — |
-| Badges | — | Nenhum efeito (estado absoluto, não são interativos) | 0ms | — |
-| Skeleton | Carregamento | Exibe `bg-muted/20` com animação `animate-pulse` | 1500ms | — |
-| Imagem | Load complete | Fade in da imagem real | 300ms | ease-out |
-| Carrossel miniaturas | Scroll horizontal | Scroll suave com `snap-x` | 300ms | — |
+| Elemento             | Gesture/Trigger       | Response                                             | Timing | Easing                       |
+| -------------------- | --------------------- | ---------------------------------------------------- | ------ | ---------------------------- |
+| Card link            | Click/tap             | Navega para página de produto                        | 0ms    | —                            |
+| Imagem               | Hover (desktop mouse) | Troca para imagem hover                              | 200ms  | cubic-bezier(0.4, 0, 0.2, 1) |
+| Imagem               | Hover (desktop mouse) | Zoom suave (scale 1.03)                              | 200ms  | cubic-bezier(0.4, 0, 0.2, 1) |
+| Imagem               | Touch tap             | Sem overlay, sem zoom (toggle de visualização única) | 0ms    | —                            |
+| Badges               | —                     | Nenhum efeito (estado absoluto, não são interativos) | 0ms    | —                            |
+| Skeleton             | Carregamento          | Exibe `bg-muted/20` com animação `animate-pulse`     | 1500ms | —                            |
+| Imagem               | Load complete         | Fade in da imagem real                               | 300ms  | ease-out                     |
+| Carrossel miniaturas | Scroll horizontal     | Scroll suave com `snap-x`                            | 300ms  | —                            |
 
 ### Hover States
 
@@ -119,23 +119,23 @@ Desktop (>= 1024px):
 
 ## Animations
 
-| Animation | Trigger | Duration | Easing | Properties |
-|-----------|---------|----------|--------|------------|
-| Image zoom in | Mouse enter card | 200ms | cubic-bezier(0.4, 0, 0.2, 1) | transform: scale(1.03) |
-| Image zoom out | Mouse leave card | 200ms | cubic-bezier(0.4, 0, 0.2, 1) | transform: scale(1) |
-| Image switch | Hover com segunda imagem | 200ms | | opacity: 0 → 1 |
-| Skeleton pulse | Component mount + loading state | 1500ms (infinite) | ease-in-out | opacity pulse |
-| Image fade-in | onLoad event | 300ms | ease-out | opacity: 0 → 1 |
+| Animation      | Trigger                         | Duration          | Easing                       | Properties             |
+| -------------- | ------------------------------- | ----------------- | ---------------------------- | ---------------------- |
+| Image zoom in  | Mouse enter card                | 200ms             | cubic-bezier(0.4, 0, 0.2, 1) | transform: scale(1.03) |
+| Image zoom out | Mouse leave card                | 200ms             | cubic-bezier(0.4, 0, 0.2, 1) | transform: scale(1)    |
+| Image switch   | Hover com segunda imagem        | 200ms             |                              | opacity: 0 → 1         |
+| Skeleton pulse | Component mount + loading state | 1500ms (infinite) | ease-in-out                  | opacity pulse          |
+| Image fade-in  | onLoad event                    | 300ms             | ease-out                     | opacity: 0 → 1         |
 
 ---
 
 ## Assets
 
-| Asset | Placement | Format | Size | Notes |
-|-------|-----------|--------|------|-------|
-| `placeholder.svg` | Fallback quando imagem não carrega | SVG | 1200x1600px | Cor cinza neutro |
-| `bg-muted/20` | Skeleton background | CSS | — | oklch equivalente |
-| Product images | Container aspect-[3/4] | WebP/JPG | 800x1067px | 3:4 aspect ratio |
+| Asset             | Placement                          | Format   | Size        | Notes             |
+| ----------------- | ---------------------------------- | -------- | ----------- | ----------------- |
+| `placeholder.svg` | Fallback quando imagem não carrega | SVG      | 1200x1600px | Cor cinza neutro  |
+| `bg-muted/20`     | Skeleton background                | CSS      | —           | oklch equivalente |
+| Product images    | Container aspect-[3/4]             | WebP/JPG | 800x1067px  | 3:4 aspect ratio  |
 
 ---
 
@@ -156,5 +156,5 @@ Desktop (>= 1024px):
 
 ---
 
-*UI Spec Version: 1.0*
-*Last Updated: 2026-06-09*
+_UI Spec Version: 1.0_
+_Last Updated: 2026-06-09_

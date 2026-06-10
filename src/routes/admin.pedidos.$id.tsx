@@ -153,6 +153,61 @@ function AdminOrderDetail() {
         </ul>
       </div>
 
+      {/* Payment Info */}
+      <div className="border border-border rounded-sm p-5 bg-background mb-6 mt-6">
+        <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-3">
+          Informacoes de Pagamento
+        </h3>
+        <div className="grid sm:grid-cols-2 gap-3 text-sm">
+          <div>
+            <span className="text-muted-foreground">Gateway:</span> {order.payment_gateway ?? "N/A"}
+          </div>
+          <div>
+            <span className="text-muted-foreground">Metodo:</span> {order.payment_method ?? "N/A"}
+          </div>
+          <div>
+            <span className="text-muted-foreground">Transaction ID:</span>{" "}
+            <span className="font-mono text-xs">{order.transaction_id ?? "N/A"}</span>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Gateway ID:</span>{" "}
+            <span className="font-mono text-xs">{order.payment_gateway_id ?? "N/A"}</span>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Valor Pago:</span>{" "}
+            {order.paid_at ? brl(Number(order.total)) : "N/A"}
+          </div>
+          <div>
+            <span className="text-muted-foreground">Data do Pagamento:</span>{" "}
+            {order.paid_at ? new Date(order.paid_at).toLocaleString("pt-BR") : "N/A"}
+          </div>
+        </div>
+
+        {order.pix_code && (
+          <div className="mt-3 pt-3 border-t border-border">
+            <label className="block text-xs tracking-editorial uppercase text-muted-foreground mb-2">
+              Codigo PIX
+            </label>
+            <div className="flex gap-2">
+              <input
+                readOnly
+                value={order.pix_code}
+                className="flex-1 border border-border bg-background rounded-sm px-3 py-2 text-sm font-mono text-xs break-all"
+              />
+            </div>
+            {order.pix_qrcode && (
+              <div className="mt-2">
+                <img
+                  src={`data:image/png;base64,${order.pix_qrcode}`}
+                  alt="QR Code PIX"
+                  className="w-24 h-24 object-contain"
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       <div className="grid md:grid-cols-2 gap-4 text-sm">
         <div className="border border-border rounded-sm p-5 bg-background">
           <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">
@@ -178,7 +233,7 @@ function AdminOrderDetail() {
         {order.notes && (
           <div className="md:col-span-2 border border-border rounded-sm p-5 bg-background">
             <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">
-              Observações
+              Observacoes
             </h3>
             <p className="whitespace-pre-wrap">{order.notes}</p>
           </div>

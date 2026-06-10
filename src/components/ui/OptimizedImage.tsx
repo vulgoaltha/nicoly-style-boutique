@@ -25,14 +25,6 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const [currentSrc, setCurrentSrc] = useState<string | undefined>(src);
 
   const handleLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    setLoaded(true);
-    if (onLoad) {
-      onLoad();
-    }
-    if (props.onLoad) {
-      props.onLoad(e);
-    }
-  };
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     setError(true);
