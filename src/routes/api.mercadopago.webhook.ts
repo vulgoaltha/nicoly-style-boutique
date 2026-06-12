@@ -5,7 +5,8 @@ import { toOrderPaymentStatus } from "@/lib/payment.functions";
 import type { WebhookPaymentData } from "@/lib/payment.types";
 
 export const Route = createFileRoute("/api/mercadopago/webhook")({
-  loader: async ({ request }: { request: Request }) => {
+  loader: async (ctx: any) => {
+    const request = ctx.request as Request;
     const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET;
     
     if (request.method !== "POST") {

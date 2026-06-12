@@ -80,14 +80,14 @@ function AdminOrders() {
                     <div className="text-xs text-muted-foreground">{o.customer_email}</div>
                   </td>
                   <td className="p-3 text-muted-foreground">
-                    {new Date(o.created_at).toLocaleDateString("pt-BR")}
+                    {new Date(o.created_at || new Date()).toLocaleDateString("pt-BR")}
                   </td>
                   <td className="p-3">{brl(Number(o.total))}</td>
                   <td className="p-3">
                     <span
-                      className={`text-xs px-2 py-1 rounded ${STATUS_COLOR[o.status] ?? "bg-secondary"}`}
+                      className={`text-xs px-2 py-1 rounded ${STATUS_COLOR[o.status || ""] ?? "bg-secondary"}`}
                     >
-                      {STATUS_LABEL[o.status] ?? o.status}
+                      {STATUS_LABEL[o.status || ""] ?? o.status}
                     </span>
                   </td>
                 </tr>

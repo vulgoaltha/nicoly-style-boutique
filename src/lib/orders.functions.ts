@@ -49,8 +49,8 @@ export const createOrder = createServerFn({ method: "POST" })
     // Chamamos a RPC que processará tudo em uma única transação no banco
     const { data: result, error } = await supabaseAdmin.rpc("create_order_transaction", {
       p_user_id: userId,
-      p_order_data: orderData as unknown,
-      p_items_data: itemsData as unknown,
+      p_order_data: orderData as any,
+      p_items_data: itemsData as any,
     });
 
     if (error) {

@@ -198,7 +198,7 @@ export const updateOrderPaymentStatus = createServerFn({ method: "POST" })
     if (data.webhookPayload !== undefined) updateData.webhook_payload = data.webhookPayload;
     if (data.orderStatus) updateData.status = data.orderStatus;
 
-    const { error } = await supabaseAdmin.from("orders").update(updateData).eq("id", data.orderId);
+    const { error } = await supabaseAdmin.from("orders").update(updateData as any).eq("id", data.orderId);
 
     if (error) {
       throw new Error(`Erro ao atualizar status do pagamento: ${error.message}`);

@@ -1,1 +1,0 @@
-DROP FUNCTION IF EXISTS public.decrement_product_stock(uuid, integer);

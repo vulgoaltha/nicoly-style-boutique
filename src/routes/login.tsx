@@ -29,7 +29,7 @@ function LoginPage() {
           email,
           password,
           options: {
-            emailRedirectTo: "https://modasnicoly.com.br/login",
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
             data: {
               name,
               cpf,

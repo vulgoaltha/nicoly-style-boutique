@@ -145,10 +145,10 @@ function CheckoutPaymentPage() {
           <h2 className="font-display text-xl mb-4">Escolha a forma de pagamento</h2>
           {preferenceId ? (
             <Payment
-              initialization={{ preferenceId }}
+              initialization={{ amount: Number(order?.total ?? 0), preferenceId } as any}
               customization={{
                 visual: { style: { theme: "default" } },
-                paymentMethods: { maxInstallments: 12, minInstallments: 1 },
+                paymentMethods: { maxInstallments: 12, minInstallments: 1 } as any,
               }}
               onSubmit={handlePaymentSubmit}
               onError={handlePaymentError}

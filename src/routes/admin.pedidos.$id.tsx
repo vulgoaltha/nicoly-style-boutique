@@ -71,7 +71,7 @@ function AdminOrderDetail() {
         <div>
           <h1 className="font-display text-3xl">{order.order_number}</h1>
           <p className="text-sm text-muted-foreground">
-            {new Date(order.created_at).toLocaleString("pt-BR")}
+            {new Date(order.created_at || new Date()).toLocaleString("pt-BR")}
           </p>
         </div>
         <div className="text-right">
@@ -85,7 +85,7 @@ function AdminOrderDetail() {
             Status do pedido
           </label>
           <select
-            value={order.status}
+            value={order.status || ""}
             onChange={(e) => update({ status: e.target.value })}
             className="w-full border border-border rounded-sm px-3 py-2 text-sm bg-background"
           >
@@ -101,7 +101,7 @@ function AdminOrderDetail() {
             Status do pagamento
           </label>
           <select
-            value={order.payment_status}
+            value={order.payment_status || ""}
             onChange={(e) => update({ payment_status: e.target.value })}
             className="w-full border border-border rounded-sm px-3 py-2 text-sm bg-background"
           >

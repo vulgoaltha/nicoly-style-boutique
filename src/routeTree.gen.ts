@@ -21,6 +21,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
 import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
 import { Route as MinhaContaPedidosRouteImport } from './routes/minha-conta.pedidos'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AdminProdutosRouteImport } from './routes/admin.produtos'
 import { Route as AdminPedidosRouteImport } from './routes/admin.pedidos'
 import { Route as AdminConfiguracoesRouteImport } from './routes/admin.configuracoes'
@@ -94,6 +95,11 @@ const PedidoIdRoute = PedidoIdRouteImport.update({
 const MinhaContaPedidosRoute = MinhaContaPedidosRouteImport.update({
   id: '/minha-conta/pedidos',
   path: '/minha-conta/pedidos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminProdutosRoute = AdminProdutosRouteImport.update({
@@ -185,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pedidos': typeof AdminPedidosRouteWithChildren
   '/admin/produtos': typeof AdminProdutosRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/minha-conta/pedidos': typeof MinhaContaPedidosRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/produto/$slug': typeof ProdutoSlugRoute
@@ -211,6 +218,7 @@ export interface FileRoutesByTo {
   '/admin/colecoes': typeof AdminColecoesRoute
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pedidos': typeof AdminPedidosRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/minha-conta/pedidos': typeof MinhaContaPedidosRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/produto/$slug': typeof ProdutoSlugRoute
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/admin/configuracoes': typeof AdminConfiguracoesRoute
   '/admin/pedidos': typeof AdminPedidosRouteWithChildren
   '/admin/produtos': typeof AdminProdutosRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/minha-conta/pedidos': typeof MinhaContaPedidosRoute
   '/pedido/$id': typeof PedidoIdRoute
   '/produto/$slug': typeof ProdutoSlugRoute
@@ -270,6 +279,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/pedidos'
     | '/admin/produtos'
+    | '/auth/callback'
     | '/minha-conta/pedidos'
     | '/pedido/$id'
     | '/produto/$slug'
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
     | '/admin/colecoes'
     | '/admin/configuracoes'
     | '/admin/pedidos'
+    | '/auth/callback'
     | '/minha-conta/pedidos'
     | '/pedido/$id'
     | '/produto/$slug'
@@ -324,6 +335,7 @@ export interface FileRouteTypes {
     | '/admin/configuracoes'
     | '/admin/pedidos'
     | '/admin/produtos'
+    | '/auth/callback'
     | '/minha-conta/pedidos'
     | '/pedido/$id'
     | '/produto/$slug'
@@ -345,6 +357,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   LojaRoute: typeof LojaRoute
   RecuperarSenhaRoute: typeof RecuperarSenhaRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   MinhaContaPedidosRoute: typeof MinhaContaPedidosRoute
   PedidoIdRoute: typeof PedidoIdRoute
   ProdutoSlugRoute: typeof ProdutoSlugRoute
@@ -435,6 +448,13 @@ declare module '@tanstack/react-router' {
       path: '/minha-conta/pedidos'
       fullPath: '/minha-conta/pedidos'
       preLoaderRoute: typeof MinhaContaPedidosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/produtos': {
@@ -613,6 +633,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   LojaRoute: LojaRoute,
   RecuperarSenhaRoute: RecuperarSenhaRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   MinhaContaPedidosRoute: MinhaContaPedidosRoute,
   PedidoIdRoute: PedidoIdRoute,
   ProdutoSlugRoute: ProdutoSlugRoute,

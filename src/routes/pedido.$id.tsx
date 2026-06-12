@@ -74,7 +74,7 @@ function OrderPage() {
         <h1 className="font-display text-4xl mt-4">Pedido confirmado</h1>
         <p className="text-sm text-muted-foreground mt-2">
           Numero <span className="font-medium text-foreground">{order.order_number}</span> · Status:{" "}
-          {STATUS_LABEL[order.status] ?? order.status}
+          {STATUS_LABEL[order.status || ""] ?? order.status}
         </p>
       </div>
 

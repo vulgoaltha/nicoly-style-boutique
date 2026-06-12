@@ -17,7 +17,7 @@ function RecuperarSenhaPage() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://modasnicoly.com.br/atualizar-senha",
+        redirectTo: `${window.location.origin}/atualizar-senha`,
       });
       if (error) throw error;
       setSent(true);

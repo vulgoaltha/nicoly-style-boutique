@@ -107,7 +107,7 @@ export const mercadoPagoWebhook = createServerFn({ method: "POST" })
 
     const { error: updateError } = await supabaseAdmin
       .from("orders")
-      .update(updateData)
+      .update(updateData as any)
       .eq("id", order.id);
 
     if (updateError) {
@@ -150,7 +150,7 @@ export async function processPaymentUpdate(
 
     const { error } = await supabaseAdmin
       .from("orders")
-      .update(updateData)
+      .update(updateData as any)
       .eq("id", orderId);
 
     if (error) throw error;

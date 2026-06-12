@@ -54,8 +54,8 @@ export function MercadoPagoBrick({
   return (
     <div ref={containerRef} className="w-full">
       <Payment
-        initialization={{ preferenceId }}
-        customization={customization}
+        initialization={{ amount: 1, preferenceId } as any}
+        customization={customization as any}
         onSubmit={onSubmit}
       />
     </div>

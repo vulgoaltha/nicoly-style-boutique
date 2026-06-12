@@ -161,7 +161,7 @@ function AdminSettings() {
 
   // --- 7. Configurações de Email ---
   const emailSettingsForm = useForm<EmailSettings>({
-    resolver: zodResolver(emailSettingsSchema),
+    resolver: zodResolver(emailSettingsSchema) as any,
     defaultValues: {
       smtp_host: getValue("smtp_host"),
       smtp_port: Number(getValue("smtp_port", 587)),
@@ -174,7 +174,7 @@ function AdminSettings() {
 
   // --- 8. Configurações Gerais ---
   const generalForm = useForm<GeneralSettings>({
-    resolver: zodResolver(generalSettingsSchema),
+    resolver: zodResolver(generalSettingsSchema) as any,
     defaultValues: {
       maintenance_mode: getValue("maintenance_mode", false),
       allow_register: getValue("allow_register", true),
@@ -186,7 +186,7 @@ function AdminSettings() {
 
   // --- 9. Frete ---
   const shippingForm = useForm<ShippingSettings>({
-    resolver: zodResolver(shippingSettingsSchema),
+    resolver: zodResolver(shippingSettingsSchema) as any,
     defaultValues: {
       default_shipping_cost: Number(getValue("default_shipping_cost", 0)),
       free_shipping_threshold: Number(getValue("free_shipping_threshold", 0)),
