@@ -56,31 +56,53 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nicoly Modas — Moda Feminina Premium" },
-      {
-        name: "description",
-        content:
-          "Vestidos, blusas e conjuntos selecionados. Estilo feminino, elegante e atemporal.",
-      },
-      { property: "og:title", content: "Nicoly Modas" },
-      { property: "og:description", content: "Moda feminina premium. Coleções selecionadas." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
-      },
-    ],
-  }),
+  loader: async () => {
+    try {
+      const { data } = await supabase.from('site_settings').select('value').eq('key', 'seo_settings').maybeSingle();
+      return { seoSettings: data?.value as any || {} };
+    } catch {
+      return { seoSettings: {} };
+    }
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.seoSettings || {};
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { title: seo.site_title || "Nicoly Modas — Moda Feminina Premium" },
+        {
+          name: "description",
+          content: seo.site_description || "Vestidos, blusas e conjuntos selecionados. Estilo feminino, elegante e atemporal.",
+        },
+        { name: "keywords", content: seo.site_keywords || "moda, feminina, boutique, vestidos" },
+        { property: "og:title", content: seo.site_title || "Nicoly Modas" },
+        { property: "og:description", content: seo.site_description || "Moda feminina premium. Coleções selecionadas." },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
+        },
+      ],
+      scripts: seo.google_analytics_id ? [
+        { src: `https://www.googletagmanager.com/gtag/js?id=${seo.google_analytics_id}`, async: true },
+        {
+          children: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${seo.google_analytics_id}');
+          `,
+        }
+      ] : [],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

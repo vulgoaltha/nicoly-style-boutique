@@ -53,11 +53,12 @@ function AdminHomeCategories() {
   const [editing, setEditing] = useState<HCategory | null>(null);
 
   const remove = async (id: string) => {
-    if (!confirm("Excluir categoria?")) return;
+    if (!confirm("Remover esta categoria?")) return;
     const { error } = await supabase.from("homepage_categories").delete().eq("id", id);
     if (error) return toast.error(error.message);
-    refetch();
-    qc.invalidateQueries({ queryKey: ["homepage-categories"] });
+    
+    toast.success("Categoria removida");
+    qc.invalidateQueries({ queryKey: ["admin-hp-categories"] });
   };
 
   const move = async (c: HCategory, dir: number) => {

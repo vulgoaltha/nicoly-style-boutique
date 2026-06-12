@@ -16,10 +16,10 @@ export function ProductForm({ productId }: Props) {
   const isEdit = !!productId;
 
   const { data: categories = [] } = useQuery({
-    queryKey: ["categories"],
+    queryKey: ["admin-hp-categories"],
     queryFn: async () => {
-      const { data } = await supabase.from("categories").select("*").order("name");
-      return (data ?? []) as unknown as Category[];
+      const { data } = await supabase.from("homepage_categories").select("*").order("title");
+      return (data ?? []).map(c => ({ id: c.id, name: c.title }));
     },
   });
 
