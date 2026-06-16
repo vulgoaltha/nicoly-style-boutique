@@ -1,18 +1,24 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLoaderData } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
-import { useInstagram } from "@/hooks/use-site-settings";
 
 export function Footer() {
-  const { data: instagram } = useInstagram();
+  const loaderData = useLoaderData({ from: "__root__" }) as any;
+  const storeData = loaderData?.storeData || {};
+  const seoSettings = loaderData?.seoSettings || {};
+  const instagram = loaderData?.instagram || null;
+  
+  const storeName = storeData?.store_name || "Nicoly Modas";
+  const storeDescription = seoSettings?.site_description || storeData?.store_description || "Moda feminina premium para mulheres que se vestem com intenção.";
+
   return (
     <footer className="mt-24 border-t border-border bg-secondary/40">
       <div className="container-editorial py-14 grid gap-10 md:grid-cols-4">
         <div>
           <div className="font-display text-2xl">
-            Nicoly <span className="text-blush">Modas</span>
+            {storeName}
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-xs">
-            Moda feminina premium para mulheres que se vestem com intenção.
+            {storeDescription}
           </p>
           {instagram?.active && (
             <a
@@ -75,7 +81,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Nicoly Modas. Todos os direitos reservados.
+        © {new Date().getFullYear()} {storeName}. Todos os direitos reservados.
       </div>
     </footer>
   );

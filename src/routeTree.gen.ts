@@ -17,6 +17,7 @@ import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as AtualizarSenhaRouteImport } from './routes/atualizar-senha'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
 import { Route as PedidoIdRouteImport } from './routes/pedido.$id'
@@ -76,6 +77,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CheckoutRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/pedido/$id': typeof PedidoIdRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/checkout/': typeof CheckoutIndexRoute
   '/admin/pedidos/$id': typeof AdminPedidosIdRoute
   '/admin/produtos/$id': typeof AdminProdutosIdRoute
   '/admin/produtos/novo': typeof AdminProdutosNovoRoute
@@ -207,7 +214,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/atualizar-senha': typeof AtualizarSenhaRoute
   '/carrinho': typeof CarrinhoRoute
-  '/checkout': typeof CheckoutRouteWithChildren
   '/login': typeof LoginRoute
   '/loja': typeof LojaRoute
   '/recuperar-senha': typeof RecuperarSenhaRoute
@@ -223,6 +229,7 @@ export interface FileRoutesByTo {
   '/pedido/$id': typeof PedidoIdRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/checkout': typeof CheckoutIndexRoute
   '/admin/pedidos/$id': typeof AdminPedidosIdRoute
   '/admin/produtos/$id': typeof AdminProdutosIdRoute
   '/admin/produtos/novo': typeof AdminProdutosNovoRoute
@@ -253,6 +260,7 @@ export interface FileRoutesById {
   '/pedido/$id': typeof PedidoIdRoute
   '/produto/$slug': typeof ProdutoSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/checkout/': typeof CheckoutIndexRoute
   '/admin/pedidos/$id': typeof AdminPedidosIdRoute
   '/admin/produtos/$id': typeof AdminProdutosIdRoute
   '/admin/produtos/novo': typeof AdminProdutosNovoRoute
@@ -284,6 +292,7 @@ export interface FileRouteTypes {
     | '/pedido/$id'
     | '/produto/$slug'
     | '/admin/'
+    | '/checkout/'
     | '/admin/pedidos/$id'
     | '/admin/produtos/$id'
     | '/admin/produtos/novo'
@@ -295,7 +304,6 @@ export interface FileRouteTypes {
     | '/'
     | '/atualizar-senha'
     | '/carrinho'
-    | '/checkout'
     | '/login'
     | '/loja'
     | '/recuperar-senha'
@@ -311,6 +319,7 @@ export interface FileRouteTypes {
     | '/pedido/$id'
     | '/produto/$slug'
     | '/admin'
+    | '/checkout'
     | '/admin/pedidos/$id'
     | '/admin/produtos/$id'
     | '/admin/produtos/novo'
@@ -340,6 +349,7 @@ export interface FileRouteTypes {
     | '/pedido/$id'
     | '/produto/$slug'
     | '/admin/'
+    | '/checkout/'
     | '/admin/pedidos/$id'
     | '/admin/produtos/$id'
     | '/admin/produtos/novo'
@@ -421,6 +431,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/checkout/': {
+      id: '/checkout/'
+      path: '/'
+      fullPath: '/checkout/'
+      preLoaderRoute: typeof CheckoutIndexRouteImport
+      parentRoute: typeof CheckoutRoute
     }
     '/admin/': {
       id: '/admin/'
@@ -613,10 +630,12 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface CheckoutRouteChildren {
+  CheckoutIndexRoute: typeof CheckoutIndexRoute
   CheckoutPagamentoOrderIdRoute: typeof CheckoutPagamentoOrderIdRoute
 }
 
 const CheckoutRouteChildren: CheckoutRouteChildren = {
+  CheckoutIndexRoute: CheckoutIndexRoute,
   CheckoutPagamentoOrderIdRoute: CheckoutPagamentoOrderIdRoute,
 }
 

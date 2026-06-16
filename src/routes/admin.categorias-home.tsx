@@ -16,21 +16,21 @@ type HCategory = {
   active: boolean;
 };
 
-const ICON_OPTIONS = [
-  "Shirt",
-  "ShoppingBag",
-  "Sparkles",
-  "Crown",
-  "Heart",
-  "Gem",
-  "Scissors",
-  "Footprints",
-  "Watch",
-  "Glasses",
-  "Flower2",
-  "Star",
-  "Sun",
-  "Palette",
+const ICON_OPTIONS: { value: string; label: string }[] = [
+  { value: "Shirt", label: "👚 Camiseta" },
+  { value: "ShoppingBag", label: "🛍️ Sacola de Compras" },
+  { value: "Sparkles", label: "✨ Brilhos" },
+  { value: "Crown", label: "👑 Coroa" },
+  { value: "Heart", label: "❤️ Coração" },
+  { value: "Gem", label: "💎 Joia" },
+  { value: "Scissors", label: "✂️ Tesoura" },
+  { value: "Footprints", label: "👣 Calçado" },
+  { value: "Watch", label: "⌚ Relógio" },
+  { value: "Glasses", label: "👓 Óculos" },
+  { value: "Flower2", label: "🌸 Flor" },
+  { value: "Star", label: "⭐ Estrela" },
+  { value: "Sun", label: "☀️ Sol" },
+  { value: "Palette", label: "🎨 Paleta de Cores" },
 ];
 
 export const Route = createFileRoute("/admin/categorias-home")({
@@ -227,8 +227,8 @@ function Editor({
               onChange={(e) => setForm({ ...form, icon: e.target.value })}
             >
               {ICON_OPTIONS.map((i) => (
-                <option key={i} value={i}>
-                  {i}
+                <option key={i.value} value={i.value}>
+                  {i.label}
                 </option>
               ))}
             </select>

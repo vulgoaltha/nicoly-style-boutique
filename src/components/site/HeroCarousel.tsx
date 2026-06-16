@@ -82,45 +82,9 @@ export function HeroCarousel() {
               containerClassName="h-full w-full"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
-            <div className="absolute inset-0 flex items-center">
-              <div className="container px-4">
-                <div className="max-w-xl text-white space-y-6">
-                  <motion.h2
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="font-display text-5xl md:text-6xl lg:text-7xl leading-tight"
-                  >
-                    {b.title}
-                  </motion.h2>
-                  {b.subtitle && (
-                    <motion.p
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.4 }}
-                      className="text-lg md:text-xl text-white/90 font-light"
-                    >
-                      {b.subtitle}
-                    </motion.p>
-                  )}
-                  {b.button_link && b.button_text && (
-                    <motion.div
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <a
-                        href={b.button_link}
-                        className="inline-block bg-white text-black px-8 py-3.5 text-sm tracking-editorial uppercase font-medium hover:bg-white/90 transition-colors"
-                      >
-                        {b.button_text}
-                      </a>
-                    </motion.div>
-                  )}
-                </div>
-              </div>
-            </div>
+            {b.button_link ? (
+              <a href={b.button_link} className="absolute inset-0 z-10" aria-label={`Ir para ${b.title}`} />
+            ) : null}
           </motion.div>
         </AnimatePresence>
 

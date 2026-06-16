@@ -12,16 +12,6 @@ import type { Product } from "@/lib/types";
 
 export const Route = createFileRoute("/")({
   component: Home,
-  head: () => ({
-    meta: [
-      { title: "Nicoly Modas — Moda Feminina Premium" },
-      {
-        name: "description",
-        content:
-          "Coleções de vestidos, blusas e conjuntos. Estilo elegante e atemporal para mulheres modernas.",
-      },
-    ],
-  }),
 });
 
 function Home() {

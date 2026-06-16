@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useLoaderData } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -17,6 +18,9 @@ function LoginPage() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const loaderData = useLoaderData({ from: "__root__" }) as any;
+  const storeName = loaderData?.storeData?.store_name || "Nicoly Modas";
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -30,22 +34,12 @@ function LoginPage() {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/auth/callback`,
-            data: {
-              name,
-              cpf,
-              phone,
-            },
+            data: { full_name: name, cpf, phone },
           },
         });
         if (error) throw error;
-
-        if (data?.session) {
-          toast.success("Cadastro realizado com sucesso!");
-          navigate({ to: "/minha-conta/pedidos" });
-        } else {
-          toast.success("Cadastro realizado! Verifique seu e-mail para confirmar a conta.");
-          setMode("login");
-        }
+        toast.success("Conta criada! Redirecionando...");
+        navigate({ to: "/minha-conta/pedidos" });
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -65,7 +59,7 @@ function LoginPage() {
         {mode === "login" ? "Entrar" : "Criar conta"}
       </h1>
       <p className="text-sm text-muted-foreground text-center mb-8">
-        {mode === "login" ? "Acesse sua conta Nicoly Modas" : "Faça parte da nossa comunidade"}
+        {mode === "login" ? `Acesse sua conta ${storeName}` : "Faça parte da nossa comunidade"}
       </p>
 
       <form onSubmit={submit} className="space-y-4">

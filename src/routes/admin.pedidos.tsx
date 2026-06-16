@@ -1,11 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { brl } from "@/lib/format";
 
 export const Route = createFileRoute("/admin/pedidos")({
-  component: AdminOrders,
+  component: AdminOrdersLayout,
 });
+
+function AdminOrdersLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isIndex = pathname === "/admin/pedidos" || pathname === "/admin/pedidos/";
+
+  if (!isIndex) {
+    return <Outlet />;
+  }
+
+  return <AdminOrdersList />;
+}
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "Pendente",
@@ -25,7 +36,7 @@ const STATUS_COLOR: Record<string, string> = {
   cancelled: "bg-destructive/10 text-destructive",
 };
 
-function AdminOrders() {
+function AdminOrdersList() {
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["admin-orders"],
     queryFn: async () => {

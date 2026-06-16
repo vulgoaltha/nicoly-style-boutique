@@ -16,6 +16,7 @@ const itemSchema = z.object({
 
 const createOrderSchema = z.object({
   customer_name: z.string().trim().min(2).max(120),
+  customer_cpf: z.string().trim().min(11).max(14),
   customer_email: z.string().trim().email().max(200),
   customer_phone: z.string().trim().min(8).max(30),
   shipping_cep: z.string().trim().min(8).max(12),

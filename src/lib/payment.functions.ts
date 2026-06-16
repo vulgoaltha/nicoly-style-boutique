@@ -206,3 +206,70 @@ export const updateOrderPaymentStatus = createServerFn({ method: "POST" })
 
     return { success: true };
   });
+
+const processPaymentSchema = z.object({
+  orderId: z.string().uuid(),
+  formData: z.any(),
+});
+
+export const processMercadoPagoPayment = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => processPaymentSchema.parse(input))
+  .handler(async ({ data }) => {
+    const { orderId, formData } = data;
+
+    if (!MP_ACCESS_TOKEN) {
+      throw new Error("MP_ACCESS_TOKEN nao configurado no servidor.");
+    }
+
+    const payload = {
+      ...(formData as Record<string, unknown>),
+      external_reference: orderId,
+    };
+
+    const res = await fetch(`${MP_API_BASE}/v1/payments`, {
+      method: "POST",
+      headers: {
+        ...getMpHeaders(),
+        "X-Idempotency-Key": `${orderId}-${Date.now()}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Erro ao criar pagamento no Mercado Pago: ${res.status} - ${errorText}`);
+    }
+
+    const payment = await res.json();
+    console.log("=== FULL LOG RETORNADO PELO MERCADO PAGO ===");
+    console.log(JSON.stringify(payment, null, 2));
+    console.log("============================================");
+
+    const { error, data: orderData } = await supabaseAdmin
+      .from("orders")
+      .update({
+        payment_gateway: "mercadopago",
+        transaction_id: payment.id?.toString(),
+        payment_status: toOrderPaymentStatus(payment.status),
+        payment_method: payment.payment_method_id,
+        pix_code: payment.payment_method_id === 'pix' ? payment.point_of_interaction?.transaction_data?.qr_code : null,
+        pix_qrcode: payment.payment_method_id === 'pix' ? payment.point_of_interaction?.transaction_data?.qr_code_base64 : null,
+      })
+      .eq("id", orderId)
+      .select();
+
+    if (error) {
+      console.error("Erro ao atualizar pedido:", error.message);
+    } else {
+      console.log("=== RESULTADO DA CRIAÇÃO/ATUALIZAÇÃO DO PEDIDO ===");
+      console.log(JSON.stringify(orderData, null, 2));
+      console.log("==================================================");
+    }
+
+    console.log("=== JSON COMPLETO RETORNADO PELA FUNÇÃO processMercadoPagoPayment ===");
+    console.log(JSON.stringify(payment, null, 2));
+    console.log("=====================================================================");
+
+    return payment;
+  });

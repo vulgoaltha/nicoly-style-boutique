@@ -7,6 +7,12 @@ import { brl } from "@/lib/format";
 
 export const Route = createFileRoute("/admin/pedidos/$id")({
   component: AdminOrderDetail,
+  errorComponent: ({ error }) => (
+    <div className="p-4 text-red-500 bg-red-50 border border-red-200 rounded">
+      <strong>Erro ao carregar pedido:</strong>
+      <pre className="mt-2 text-xs">{error instanceof Error ? error.message : JSON.stringify(error)}</pre>
+    </div>
+  ),
 });
 
 const STATUSES = ["pending", "paid", "processing", "shipped", "delivered", "cancelled"] as const;
@@ -216,6 +222,9 @@ function AdminOrderDetail() {
           <div>{order.customer_name}</div>
           <div className="text-muted-foreground">{order.customer_email}</div>
           <div className="text-muted-foreground">{order.customer_phone}</div>
+          {order.customer_cpf && (
+            <div className="text-muted-foreground font-mono mt-1 text-xs">CPF: {order.customer_cpf}</div>
+          )}
         </div>
         <div className="border border-border rounded-sm p-5 bg-background">
           <h3 className="text-xs tracking-editorial uppercase text-muted-foreground mb-2">

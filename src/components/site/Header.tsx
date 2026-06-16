@@ -1,9 +1,8 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLoaderData } from "@tanstack/react-router";
 import { ShoppingBag, User, Menu, X, Instagram, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/store/cart";
 import { useAuth } from "@/hooks/use-auth";
-import { useInstagram } from "@/hooks/use-site-settings";
 import { supabase } from "@/integrations/supabase/client";
 
 const nav = [
@@ -17,7 +16,12 @@ const nav = [
 export function Header() {
   const count = useCart((s) => s.count());
   const { user, isAdmin } = useAuth();
-  const { data: instagram } = useInstagram();
+  
+  const loaderData = useLoaderData({ from: "__root__" }) as any;
+  const storeData = loaderData?.storeData || {};
+  const instagram = loaderData?.instagram || null;
+  const storeName = storeData?.store_name || "Nicoly Modas";
+  
   const [open, setOpen] = useState(false);
 
   return (
@@ -32,7 +36,7 @@ export function Header() {
         </button>
 
         <Link to="/" className="font-display text-2xl tracking-tight md:text-3xl">
-          Nicoly <span className="text-blush">Modas</span>
+          {storeName}
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm">

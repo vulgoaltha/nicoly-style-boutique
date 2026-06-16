@@ -15,6 +15,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { WhatsAppButton } from "@/components/site/WhatsAppButton";
 
 function NotFoundComponent() {
   return (
@@ -58,30 +59,54 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   loader: async () => {
     try {
-      const { data } = await supabase.from('site_settings').select('value').eq('key', 'seo_settings').maybeSingle();
-      return { seoSettings: data?.value as any || {} };
+      const { data } = await supabase.from("site_settings").select("key, value").in("key", ["seo_settings", "store_data", "instagram"]);
+      const settings: {
+        seoSettings: Record<string, any>;
+        storeData: Record<string, any>;
+        instagram: any;
+      } = {
+        seoSettings: {},
+        storeData: {},
+        instagram: null,
+      };
+      data?.forEach((item) => {
+        if (item.key === "seo_settings") settings.seoSettings = item.value as any;
+        if (item.key === "store_data") settings.storeData = item.value as any;
+        if (item.key === "instagram") settings.instagram = item.value as any;
+      });
+      return settings;
     } catch {
-      return { seoSettings: {} };
+      return { 
+        seoSettings: {} as Record<string, any>, 
+        storeData: {} as Record<string, any>,
+        instagram: null 
+      };
     }
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.seoSettings || {};
+    const store = loaderData?.storeData || {};
+    
+    const storeName = store.store_name || "Nicoly Modas";
+    const storeDesc = seo.site_description || store.store_description || "Vestidos, blusas e conjuntos selecionados. Estilo feminino, elegante e atemporal.";
+    
     return {
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { title: seo.site_title || "Nicoly Modas — Moda Feminina Premium" },
+        { title: seo.site_title || `${storeName} — Moda Feminina Premium` },
         {
           name: "description",
-          content: seo.site_description || "Vestidos, blusas e conjuntos selecionados. Estilo feminino, elegante e atemporal.",
+          content: storeDesc,
         },
         { name: "keywords", content: seo.site_keywords || "moda, feminina, boutique, vestidos" },
-        { property: "og:title", content: seo.site_title || "Nicoly Modas" },
-        { property: "og:description", content: seo.site_description || "Moda feminina premium. Coleções selecionadas." },
+        { property: "og:title", content: seo.site_title || storeName },
+        { property: "og:description", content: storeDesc },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
       links: [
+        { rel: "icon", href: store.store_favicon_url || "/favicon.ico" },
         { rel: "stylesheet", href: appCss },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -144,6 +169,7 @@ function RootComponent() {
         <Outlet />
       </main>
       {!isAdmin && <Footer />}
+      {!isAdmin && <WhatsAppButton />}
       <Toaster />
     </QueryClientProvider>
   );
