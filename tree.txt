@@ -1,0 +1,169 @@
+C:\Users\Administrador\Desktop\PROJETO ECOMMERCE (NM)1\PROJETO ECOMMERCE (NM)1\nicoly-style-boutique-main
+├── Audit_Mapping.md
+├── bun.lock
+├── bunfig.toml
+├── components.json
+├── eslint.config.js
+├── package-lock.json
+├── package.json
+├── public
+|  ├── clear-auth.html
+|  ├── robots.txt
+|  └── sitemap.xml
+├── src
+|  ├── assets
+|  |  └── hero.jpg
+|  ├── components
+|  |  ├── admin
+|  |  |  ├── dashboard
+|  |  |  ├── ImageUploader.tsx
+|  |  |  └── ProductForm.tsx
+|  |  ├── payment
+|  |  |  ├── MercadoPagoBrick.tsx
+|  |  |  ├── PaymentStatus.tsx
+|  |  |  └── PixDisplay.tsx
+|  |  ├── site
+|  |  |  ├── AnnouncementMarquee.tsx
+|  |  |  ├── CategoriesCarousel.tsx
+|  |  |  ├── CollectionCards.tsx
+|  |  |  ├── CustomerReviewsCarousel.tsx
+|  |  |  ├── Footer.tsx
+|  |  |  ├── Header.tsx
+|  |  |  ├── HeroCarousel.tsx
+|  |  |  └── ProductCard.tsx
+|  |  └── ui
+|  |     ├── accordion.tsx
+|  |     ├── alert-dialog.tsx
+|  |     ├── alert.tsx
+|  |     ├── aspect-ratio.tsx
+|  |     ├── avatar.tsx
+|  |     ├── badge.tsx
+|  |     ├── breadcrumb.tsx
+|  |     ├── button.tsx
+|  |     ├── calendar.tsx
+|  |     ├── card.tsx
+|  |     ├── carousel.tsx
+|  |     ├── chart.tsx
+|  |     ├── checkbox.tsx
+|  |     ├── collapsible.tsx
+|  |     ├── command.tsx
+|  |     ├── context-menu.tsx
+|  |     ├── dialog.tsx
+|  |     ├── drawer.tsx
+|  |     ├── dropdown-menu.tsx
+|  |     ├── form.tsx
+|  |     ├── hover-card.tsx
+|  |     ├── input-otp.tsx
+|  |     ├── input.tsx
+|  |     ├── label.tsx
+|  |     ├── menubar.tsx
+|  |     ├── navigation-menu.tsx
+|  |     ├── OptimizedImage.tsx
+|  |     ├── pagination.tsx
+|  |     ├── popover.tsx
+|  |     ├── progress.tsx
+|  |     ├── radio-group.tsx
+|  |     ├── resizable.tsx
+|  |     ├── scroll-area.tsx
+|  |     ├── select.tsx
+|  |     ├── separator.tsx
+|  |     ├── sheet.tsx
+|  |     ├── sidebar.tsx
+|  |     ├── skeleton.tsx
+|  |     ├── slider.tsx
+|  |     ├── sonner.tsx
+|  |     ├── switch.tsx
+|  |     ├── table.tsx
+|  |     ├── tabs.tsx
+|  |     ├── textarea.tsx
+|  |     ├── toggle-group.tsx
+|  |     ├── toggle.tsx
+|  |     └── tooltip.tsx
+|  ├── hooks
+|  |  ├── use-auth.ts
+|  |  ├── use-mobile.tsx
+|  |  ├── use-site-settings.ts
+|  |  ├── useDashboardData.ts
+|  |  └── useDashboardRealtime.ts
+|  ├── integrations
+|  |  └── supabase
+|  |     ├── auth-attacher.ts
+|  |     ├── auth-middleware.ts
+|  |     ├── client.server.ts
+|  |     ├── client.ts
+|  |     └── types.ts
+|  ├── lib
+|  |  ├── error-capture.ts
+|  |  ├── error-page.ts
+|  |  ├── format.ts
+|  |  ├── orders.functions.ts
+|  |  ├── payment.functions.ts
+|  |  ├── payment.types.ts
+|  |  ├── types.ts
+|  |  ├── upload.ts
+|  |  ├── utils.ts
+|  |  ├── webhook.functions.ts
+|  |  └── webhook.validator.ts
+|  ├── router.tsx
+|  ├── routes
+|  |  ├── admin.anuncio.tsx
+|  |  ├── admin.avaliacoes.tsx
+|  |  ├── admin.banners.tsx
+|  |  ├── admin.categorias-home.tsx
+|  |  ├── admin.colecoes.tsx
+|  |  ├── admin.configuracoes.tsx
+|  |  ├── admin.index.tsx
+|  |  ├── admin.pedidos.$id.tsx
+|  |  ├── admin.pedidos.tsx
+|  |  ├── admin.produtos.$id.tsx
+|  |  ├── admin.produtos.index.tsx
+|  |  ├── admin.produtos.novo.tsx
+|  |  ├── admin.produtos.tsx
+|  |  ├── admin.tsx
+|  |  ├── api.mercadopago.webhook.ts
+|  |  ├── atualizar-senha.tsx
+|  |  ├── auth.callback.tsx
+|  |  ├── carrinho.tsx
+|  |  ├── checkout.pagamento.$orderId.tsx
+|  |  ├── checkout.tsx
+|  |  ├── index.tsx
+|  |  ├── login.tsx
+|  |  ├── loja.tsx
+|  |  ├── minha-conta.pedidos.tsx
+|  |  ├── pedido.$id.tsx
+|  |  ├── produto.$slug.tsx
+|  |  ├── recuperar-senha.tsx
+|  |  └── __root.tsx
+|  ├── routeTree.gen.ts
+|  ├── schemas
+|  |  └── settingsSchema.ts
+|  ├── server.ts
+|  ├── start.ts
+|  ├── store
+|  |  └── cart.ts
+|  ├── styles.css
+|  └── tests
+|     └── UI-SPEC.md
+├── supabase
+|  ├── config.toml
+|  ├── migrations
+|  |  ├── 00000000000000_initial_schema.sql
+|  |  └── 00000000000001_fix_user_roles_rls.sql
+|  └── seed
+|     └── seed.sql
+├── SUPABASE_AUDIT_FINAL.md
+├── SUPABASE_AUDIT_FULL.md
+├── SUPABASE_COMPATIBILITY_REPORT.md
+├── SUPABASE_SETUP_REPORT.md
+├── tsconfig.json
+├── utils
+|  └── supabase
+|     ├── client.ts
+|     ├── middleware.ts
+|     └── server.ts
+├── vite.config.ts
+└── wrangler.jsonc
+
+directory: 1570 file: 12223
+
+ignored: directory (280)
