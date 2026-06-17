@@ -23,15 +23,16 @@ function getClientEnv(key: string): string | undefined {
 function createSupabaseClient() {
   const SUPABASE_URL =
     getClientEnv("VITE_SUPABASE_URL") ??
-    getClientEnv("VITE_SUPABASE_URL") ??
-    (typeof process !== "undefined" ? process.env.SUPABASE_URL : undefined);
+    (typeof process !== "undefined" ? process.env.SUPABASE_URL : undefined) ?? 
+    "https://zycwvatimjfbsfnjjvns.supabase.co";
 
   const SUPABASE_ANON_KEY =
     getClientEnv("VITE_SUPABASE_ANON_KEY") ??
     getClientEnv("VITE_SUPABASE_PUBLISHABLE_KEY") ??
     (typeof process !== "undefined"
       ? (process.env.SUPABASE_ANON_KEY ?? process.env.SUPABASE_PUBLISHABLE_KEY)
-      : undefined);
+      : undefined) ?? 
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5Y3d2YXRpbWpmYnNmbmpqdm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExODU1NDcsImV4cCI6MjA5Njc2MTU0N30.xMHVJVLDbDFZPmEApMsq391AxHHhI73pr6aG2nyXoDA";
 
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     const missing = [

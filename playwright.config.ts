@@ -1,10 +1,18 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default defineConfig({
   testDir: './tests/e2e',
   timeout: 60000,
   expect: {
     timeout: 10000
+  },
+  webServer: {
+    command: 'npm run dev -- --port 4175',
+    port: 4175,
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
   },
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
