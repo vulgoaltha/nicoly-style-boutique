@@ -1,4 +1,4 @@
 {
-  "buildCommand": "npm run build && node deploy-vercel.cjs",
-  "framework": null
+  "buildCommand": "npm run build",
+  "outputDirectory": ".vercel/output"
 }
