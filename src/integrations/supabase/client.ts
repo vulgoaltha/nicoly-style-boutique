@@ -14,14 +14,14 @@ interface ViteEnv {
 }
 
 function createSupabaseClient() {
-  // Configuração estática obrigatória para o Vite + Vercel (com fallback para SUPABASE_ direto)
-  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || import.meta.env.SUPABASE_URL;
-  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.SUPABASE_ANON_KEY || import.meta.env.SUPABASE_PUBLISHABLE_KEY;
+  // Configuração estática obrigatória para o Vite + Vercel
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     const missing = [
-      ...(!SUPABASE_URL ? ["VITE_SUPABASE_URL or SUPABASE_URL"] : []),
-      ...(!SUPABASE_ANON_KEY ? ["VITE_SUPABASE_ANON_KEY or SUPABASE_ANON_KEY"] : []),
+      ...(!SUPABASE_URL ? ["VITE_SUPABASE_URL"] : []),
+      ...(!SUPABASE_ANON_KEY ? ["VITE_SUPABASE_ANON_KEY"] : []),
     ];
     const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Please check your .env file.`;
     console.error(`[Supabase] ${message}`);
