@@ -16,6 +16,7 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    envPrefix: ["VITE_", "SUPABASE_"],
     build: {
       cssMinify: true,
       minify: "esbuild",
