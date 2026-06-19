@@ -26,24 +26,6 @@ export default defineConfig({
     build: {
       cssMinify: true,
       minify: "esbuild",
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes("node_modules")) {
-              if (id.includes("recharts") || id.includes("d3")) {
-                return "vendor-charts";
-              }
-              if (id.includes("@radix-ui") || id.includes("lucide-react")) {
-                return "vendor-ui";
-              }
-              if (id.includes("@supabase")) {
-                return "vendor-supabase";
-              }
-              return "vendor";
-            }
-          },
-        },
-      },
     },
   },
 });
