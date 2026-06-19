@@ -1,0 +1,1 @@
+import{a0 as t,j as r}from"./index-DLqcB7TU.js";import{P as m}from"./ProductForm-CGE7QLtF.js";import"./useQuery-aH-BzVhj.js";import"./format-W46puzMN.js";import"./upload-fEFW9k5L.js";function n(){const{id:o}=t.useParams();return r.jsx(m,{productId:o})}export{n as component};

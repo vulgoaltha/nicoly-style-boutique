@@ -1,1 +1,0 @@
-import{X as o}from"./index-ZgK5Yfix.js";import{P as t}from"./ProductForm-C0X2Wa22.js";import"./vendor-ui-B6gyBrO4.js";import"./vendor-supabase-o1z4SGoW.js";import"./format-W46puzMN.js";const n=()=>o.jsx(t,{});export{n as component};

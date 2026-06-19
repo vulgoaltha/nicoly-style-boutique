@@ -19,31 +19,9 @@ export default defineConfig({
         preset: "vercel",
       }),
     ],
-    define: {
-      "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || ""),
-      "import.meta.env.VITE_SUPABASE_ANON_KEY": JSON.stringify(process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || ""),
-    },
     build: {
       cssMinify: true,
       minify: "esbuild",
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes("node_modules")) {
-              if (id.includes("recharts") || id.includes("d3")) {
-                return "vendor-charts";
-              }
-              if (id.includes("@radix-ui") || id.includes("lucide-react")) {
-                return "vendor-ui";
-              }
-              if (id.includes("@supabase")) {
-                return "vendor-supabase";
-              }
-              return "vendor";
-            }
-          },
-        },
-      },
     },
   },
 });

@@ -1,1 +1,0 @@
-import{ao as s,q as a,X as n}from"./index-ZgK5Yfix.js";function t(...e){return s(a(e))}function i({className:e,...r}){return n.jsx("div",{className:t("animate-pulse rounded-md bg-primary/10",e),...r})}export{i as S,t as c};

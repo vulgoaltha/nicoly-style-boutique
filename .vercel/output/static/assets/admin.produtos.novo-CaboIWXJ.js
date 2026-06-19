@@ -1,0 +1,1 @@
+import{j as o}from"./index-DLqcB7TU.js";import{P as t}from"./ProductForm-CGE7QLtF.js";import"./useQuery-aH-BzVhj.js";import"./format-W46puzMN.js";import"./upload-fEFW9k5L.js";const n=()=>o.jsx(t,{});export{n as component};

@@ -1,1 +1,0 @@
-function t(){{const e=`Missing Supabase environment variable(s): ${["VITE_SUPABASE_URL","VITE_SUPABASE_ANON_KEY"].join(", ")}. Please check your .env file.`;throw console.error(`[Supabase] ${e}`),new Error(e)}}let n;const s=new Proxy({},{get(e,r,o){return n||(n=t()),Reflect.get(n,r,o)}});export{s as o};
