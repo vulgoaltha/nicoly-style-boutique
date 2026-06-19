@@ -1,0 +1,1 @@
+const r=e=>new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(e),a=e=>e.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");export{r as b,a as s};

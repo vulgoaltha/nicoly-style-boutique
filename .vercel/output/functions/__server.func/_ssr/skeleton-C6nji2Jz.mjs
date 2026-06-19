@@ -1,0 +1,1 @@
+import{j as m}from"../_libs/react.mjs";import{c as s}from"../_libs/clsx.mjs";import{t as e}from"../_libs/tailwind-merge.mjs";function o(...r){return e(s(r))}function c({className:r,...t}){return m.jsx("div",{className:o("animate-pulse rounded-md bg-primary/10",r),...t})}export{c,o as n};
