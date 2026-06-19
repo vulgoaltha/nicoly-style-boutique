@@ -15,8 +15,18 @@ interface ViteEnv {
 
 function createSupabaseClient() {
   // Configuração estática obrigatória para o Vite + Vercel
-  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const getEnv = (key: string) => {
+    if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env[key]) {
+      return import.meta.env[key];
+    }
+    if (typeof process !== "undefined" && process.env && process.env[key]) {
+      return process.env[key];
+    }
+    return undefined;
+  };
+
+  const SUPABASE_URL = getEnv("VITE_SUPABASE_URL") || getEnv("SUPABASE_URL");
+  const SUPABASE_ANON_KEY = getEnv("VITE_SUPABASE_ANON_KEY") || getEnv("SUPABASE_ANON_KEY");
 
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     const missing = [
