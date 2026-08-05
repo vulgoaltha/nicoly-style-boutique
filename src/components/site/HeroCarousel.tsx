@@ -96,44 +96,23 @@ export function HeroCarousel() {
             transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0"
           >
-            {/* Imagem de fundo */}
-            <OptimizedImage
-              src={b.image_url}
-              alt={b.title}
-              containerClassName="h-full w-full"
-              className="h-full w-full object-cover"
-            />
-
-            {/* Overlay gradiente */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-            {/* Conteúdo de texto + CTA */}
-            <div className="absolute inset-0 flex flex-col items-start justify-end z-10 container-editorial pb-10 sm:pb-14 lg:pb-20">
-              <motion.div
-                key={b.id + "-text"}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="max-w-xl"
-              >
-                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white leading-tight">
-                  {b.title}
-                </h2>
-                {b.subtitle && (
-                  <p className="mt-2 sm:mt-3 text-sm sm:text-base text-white/80 max-w-sm">
-                    {b.subtitle}
-                  </p>
-                )}
-                {b.button_link && b.button_text && (
-                  <a
-                    href={b.button_link}
-                    className="mt-5 sm:mt-6 inline-flex items-center gap-2 bg-white text-foreground text-xs tracking-editorial uppercase px-6 py-3 rounded-sm hover:bg-blush-soft transition font-medium"
-                  >
-                    {b.button_text}
-                  </a>
-                )}
-              </motion.div>
-            </div>
+            {b.button_link ? (
+              <a href={b.button_link} className="absolute inset-0 block h-full w-full" aria-label={`Ver ${b.title}`}>
+                <OptimizedImage
+                  src={b.image_url}
+                  alt={b.title}
+                  containerClassName="h-full w-full"
+                  className="h-full w-full object-cover"
+                />
+              </a>
+            ) : (
+              <OptimizedImage
+                src={b.image_url}
+                alt={b.title}
+                containerClassName="absolute inset-0 h-full w-full"
+                className="h-full w-full object-cover"
+              />
+            )}
           </motion.div>
         </AnimatePresence>
 
