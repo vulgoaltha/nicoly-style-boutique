@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Limpando sessão...</title>
+    <script>
+      // Limpa todas as chaves do Supabase do localStorage
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("sb-") || key.includes("supabase")) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      // Redireciona para a home após limpar
+      window.location.href = "/";
+    </script>
+  </head>
+  <body>
+    <p>Limpando sessão e redirecionando...</p>
+  </body>
+</html>
