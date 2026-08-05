@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin/
-Disallow: /checkout/
-Disallow: /minha-conta/
-
-Sitemap: https://nicolymodas.com.br/sitemap.xml
