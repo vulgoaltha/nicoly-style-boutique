@@ -33,11 +33,11 @@ function Shop() {
     queryKey: ["categories"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("categories")
-        .select("id,name,slug")
-        .order("name");
+        .from("homepage_categories")
+        .select("id,title,slug")
+        .order("order_position");
       if (error) throw error;
-      return data as unknown as Category[];
+      return (data as any[]).map(c => ({ id: c.id, name: c.title, slug: c.slug })) as Category[];
     },
   });
 
